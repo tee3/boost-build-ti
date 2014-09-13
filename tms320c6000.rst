@@ -1,0 +1,213 @@
+Boost.Build TMS320C6000 Toolset
+===============================
+
+Overview
+--------
+
+This toolset supports the Texas Instruments TMS320C6000 Code
+Generation Tools.  The TMS320C6000 Code Generation Tools is a
+cross-compiler for Windows and Linux for the TMS320C6000 family of
+processors that provides highly compliant C89 and C++-03 compilers.
+The toolset extends the architecture and instruction-set features to
+include the TMS320C6000 family of processors.
+
+Note that these compilers compile for bare-metal systems.
+
+Usage
+-----
+
+A ``using`` directive without parameters searches for the code
+generation tools in the normal places.  The first to match wins.
+
+::
+
+   using tms320c6000 ;
+
+Specifying the version performs the same search as above but stops
+with the first toolset found that provides that version number.
+
+::
+
+   using tms320c6000 : 6.1.2 ;
+
+Specifying the path will use the path specified.  If the version does
+not match the desired version, it is an error.
+
+::
+
+   using tms320c6000 : 6.1.2 : /opt/ti/tms320c6000/bin/cl6x ;
+
+Finally, you can specify the family, architecture and processor
+directly.
+
+::
+
+   using tms320c6000 : 6.1.2 : /opt/ti/tms320c6000/bin
+      :
+         <tms320-family>tms320c6000
+         <tms320-processor>tms320c64x+
+      ;
+
+Once the toolset is configured it should work like any other
+Boost.Build toolset within the constraints of the TMS320C6000
+compiler.
+
+Features
+--------
+
+Platform Configuration
+``````````````````````
+
+The ``tms320c6000`` toolset provides a mechanism to support
+platform-specific configuration using a linker command file.  These
+are treated specially and can be used as sources for a program as
+well.
+
+::
+
+   # A jamfile
+   exe hello
+      : # sources
+         hello.cpp
+
+         hello_special_board.cmd
+      ;
+
+This can be used to build a program for several 'platforms' using
+standard Boost.Build mechanisms.
+
+::
+
+   # A jamfile
+   import feature ;
+
+   # define two platforms
+   feature.feature platform
+      :
+         platform-a platform-b
+      :
+         propagated
+         optional
+         symmetric
+      ;
+
+   exe hello
+      : # sources
+         hello.cpp
+
+         platform-configuration
+      ;
+
+   # generate platform-configuration for each platform
+   for p in platform-a platform-b
+   {
+      alias platform-configuration
+	 : # sources
+	    $(p).cmd
+	 : # requirements
+	    <platform>$(p)
+	 ;
+   }
+
+Processor Families
+``````````````````
+
+As there are many different assemblers for each processor family,
+there are several types of files for each processor family.
+
+``.hXX``
+   Processor-family-specific C header files.
+``.sXX``
+   Processor-family-specific assembler source files.
+``.oXX``
+   Processor-family-specific object files.
+``.aXX`` or ``.lXX``
+   Processor-family-specific library files.
+
+The ``XX`` above can be any of the following:
+
+``62``
+   TMS320C6200 family
+``64``
+   TMS320C6400 family
+``67``
+   TMS320C6700 family
+
+Issues
+------
+
+Run-time system
+```````````````
+
+There is still some work to be done selecting the run-time system.
+There is dependency on exception-handling, sandiness on processors
+that have hardware switches, instruction-set, etc.  Also, some systems
+come with the source code and a build tool to tailor the run-time
+system for a particular system.
+
+Dynamic linking
+```````````````
+
+Figure out if there is a way to talk about "dynamic linking" on such a
+system.  Certainly, there are relocatable modules, but these aren't
+the typical usage.
+
+Platform specification
+``````````````````````
+
+First, when cross-compiling for a bare system, the linker controls the
+layout of the system in memory.  Typically, this depends heavily on
+the details of the system linking for.  This includes, but is not
+limited to the following:
+
+- the memory layout of the system (location, size, read/write)
+- the locations of various parts of the system
+- options for initializing memory
+- lots more
+
+This is typically specified to the linker via a linker command file
+which is normally given to the linker just like a library would be and
+is dependent on the "platform" or "board" or "system" and can change
+without any of the other source code of the system changing.
+
+Typically, there is a linker specification that makes sense even if
+there is no board specified, though it may be either severely limited
+or run only on a simulator.  For example, many embedded processors
+have internal RAM and ROM no matter what board they are on.  This is a
+nice default so that simple small programs will just link properly and
+run.  This is really nice for test programs.
+
+This probably means there is another feature (called "board" for lack
+of a better term, I like platform better, but that may conflict with
+the way people think about Unix/Linux/Mac OS X/Windows).
+
+Fortunately, with Boost.Build, this can be dealt with by associating
+some board-specific source code, libraries, etc. with a board and
+select boards to build for at build time.
+
+The linker command file type is implemented by creating a new type CMD
+that acts like an STATIC_LIB with the extensions .lcf and .cmd.  These
+should have a dependency scanner looking for -l"filename" since it is
+possible to include both libaries and other linker command files in a
+linker command file.
+
+Multi-threading
+```````````````
+
+Note that on a bare-metal system, there is no multi-threading
+available.  However, there may be with real-time operating systems
+that run on these processors.  Should this be supported in the
+compiler or in the operating system file?  Right now, Boost.Build
+deals with that in the compiler definitions for ``gcc`` for example
+assuming that the ``host-os`` is the ``target-os``.
+
+Deal with ``host-os`` better
+````````````````````````````
+
+This may not be required, but it might be necessary to deal with how
+the compiler works on those platforms.  The ``cygwin`` ``host-os``
+definitely requires some special care, but it might be portable to all
+``host-os`` if done properly.
+
+- ``$(x:W)`` should be used in all path references, for cygwin
+  support.

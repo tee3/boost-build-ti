@@ -1,0 +1,8 @@
+import testing ;
+
+lib liba : a.cpp ;
+
+exe hello : hello.cpp liba ;
+
+# @todo this does not work without a simulator
+#run test_pass.cpp ;

@@ -31,7 +31,7 @@ rule init ( version ? : command * : options * )
   # Check that the host operating system is supported.  If it is not,
   # continue without configuring so we can still build targets that do
   # not need this toolset.
-  if [ os.name ] = NT || [ os.name ] = CYGWIN || [ os.name ] = LINUX
+  if [ os.name ] = NT || [ os.name ] = CYGWIN || [ os.name ] = LINUX || [ os.name ] = MACOSX
   {
     command = [ common.get-invocation-command tms320c6000 : cl6x : $(command) ] ;
 

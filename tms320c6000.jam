@@ -185,7 +185,6 @@ toolset.flags tms320c6000.asm INCLUDES <include> ;
 
 toolset.flags tms320c6000.asm DEFAULTS : -qq ;
 
-
 actions asm
 {
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ea "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(INCLUDES:W)" -I"$(STDHDRS:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
@@ -262,18 +261,11 @@ local rule cpu-flags ( toolset variable * : architecture : instruction-set + : v
   if $(default)
   {
     # architecure and instruction-set are not set
-    toolset.flags $(toolset) $(variable)
-      <architecture>/<instruction-set>
-      : $(values) ;
+    toolset.flags $(toolset) $(variable) <architecture>/<instruction-set> : $(values) ;
     # instruction-set is not set
-    toolset.flags $(toolset) $(variable)
-      <architecture>$(architecture)/<instruction-set>
-      : $(values) ;
+    toolset.flags $(toolset) $(variable) <architecture>$(architecture)/<instruction-set> : $(values) ;
   }
-  toolset.flags $(toolset) $(variable)
-    <architecture>/<instruction-set>$(instruction-set)
-    <architecture>$(architecture)/<instruction-set>$(instruction-set)
-    : $(values) ;
+  toolset.flags $(toolset) $(variable) <architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
 }
 
 cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6000 : -mv6200  : default ;

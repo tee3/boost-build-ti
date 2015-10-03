@@ -27,4 +27,6 @@ iterate_toolset_instruction_sets () {
     done
 }
 
+iterate_toolset_instruction_sets tms320c5400-4.2.0 tms320c5400 tms320c5400 tms320c5409
+iterate_toolset_instruction_sets tms320c5500-4.4.1 tms320c5500 tms320c5509 tms320c5510
 iterate_toolset_instruction_sets tms320c6000-7.4.14 tms320c6000 tms320c6000 tms320c6200 tms320c6400

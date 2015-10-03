@@ -1,0 +1,264 @@
+# Boost.Build support for the Texas Instruments TMS320C5500 Code Generation
+# Tools.
+#
+# @todo add automatic library and runtime selection
+# @todo add linker command file library
+# @todo deal with dynamic linking
+# @todo deal with multi-threaded?
+# @todo deal with windows and linux host-os
+# @todo :W should be used in all path references, for cygwin support.
+
+import property ;
+import generators ;
+import os ;
+import type ;
+import toolset ;
+import errors ;
+import feature ;
+import path ;
+import common ;
+import errors ;
+
+import tms320_common ;
+
+if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
+{
+  .debug-configuration = true ;
+}
+
+feature.extend toolset : tms320c5500 ;
+
+rule init ( version ? : command * : options * )
+{
+  # Check that the host operating system is supported.  If it is not,
+  # continue without configuring so we can still build targets that do
+  # not need this toolset.
+  if [ os.name ] = NT || [ os.name ] = CYGWIN || [ os.name ] = LINUX || [ os.name ] = MACOSX
+  {
+    command = [ common.get-invocation-command tms320c5500 : cl55 : $(command) ] ;
+
+    root = ;
+    if $(command)
+    {
+      root = [ common.get-absolute-tool-path $(command[-1]) ] ;
+      root = $(root:P) ;
+
+      version ?= [ MATCH "^([0-9.]+)" : [ SHELL \""$(command)\" --compiler_revision" ] ] ;
+      if $(version)
+      {
+        local actual_version = [ MATCH "^([0-9.]+)" : [ SHELL \""$(command)\" --compiler_revision" ] ] ;
+        if $(actual_version) != $(version)
+        {
+          errors.user-error "tms320c5500: detected version $(actual_version) does not match desired $(version)" ;
+        }
+      }
+    }
+    else
+    {
+      errors.user-error "tms320c5500: cl55 not found" ;
+    }
+
+    local condition = [ common.check-init-parameters tms320c5500 : version $(version) ] ;
+
+    common.handle-options tms320c5500 : $(condition) : $(command) : $(options) ;
+
+    # @todo this seems to be the right way, but this is a list somehow
+    #    toolset.add-requirements <toolset>tms320c5500:<testing.launcher>"$(root[0])/bin/load55exe" ;
+
+    if $(.debug-configuration)
+    {
+      ECHO "tms320c5500: using compiler" $(version) "at" $(root) ;
+    }
+
+    toolset.flags tms320c5500.compile STDHDRS $(condition) : $(root)/include ;
+    toolset.flags tms320c5500.link STDLIBPATH $(condition) : $(root)/lib ;
+    toolset.flags tms320c5500.link RUN_PATH $(condition) : $(root)/bin ;
+    toolset.flags tms320c5500 .root $(condition) : $(root)/bin/ ;
+  }
+  else
+  {
+    ECHO "tms320c5500: warning: unsupported operating system" os.name ;
+  }
+}
+
+type.register H55 : h55 : H ;
+
+type.register S55 : s55 : ASM ;
+
+type.register O55 : o55 ;
+
+type.register A55 : a55 l55 ;
+
+type.set-generated-target-suffix EXE : <toolset>tms320c5500 : out ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c5500 : obj ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5500 : lib ;
+
+generators.register-linker tms320c5500.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5500 <architecture>tms320c5500 ;
+#generators.register-linker tms320c5500.link : OBJ O55 A55 STATIC_LIB : EXE : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 ;
+
+generators.register-archiver tms320c5500.archive : OBJ : STATIC_LIB : <toolset>tms320c5500 <architecture>tms320c5500 ;
+#generators.register-archiver tms320c5500.archive : OBJ O55 : STATIC_LIB : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 ;
+
+generators.register-c-compiler tms320c5500.compile.c++ : CPP : OBJ : <toolset>tms320c5500 <architecture>tms320c5500 ;
+generators.register-c-compiler tms320c5500.compile.c : C : OBJ : <toolset>tms320c5500 <architecture>tms320c5500 ;
+generators.register-standard tms320c5500.asm : ASM : OBJ : <toolset>tms320c5500 <architecture>tms320c5500 ;
+
+# Declare flags
+
+# Compiler
+
+# @todo work around for now
+toolset.flags tms320c5500.compile OPTIONS <debug-symbols>off : ;
+toolset.flags tms320c5500.compile OPTIONS <debug-symbols>on : -g ;
+
+toolset.flags tms320c5500.compile OPTIONS <optimization>off : ;
+toolset.flags tms320c5500.compile OPTIONS <optimization>speed : -O3 ;
+toolset.flags tms320c5500.compile OPTIONS <optimization>space : -ms=3 ;
+
+# @todo fill in completely
+# toolset.flags tms320c5500.compile OPTIONS <profiling>off :  ;
+# toolset.flags tms320c5500.compile OPTIONS <profiling>on :  ;
+
+# @todo fill in completely
+toolset.flags tms320c5500.compile OPTIONS <inlining>off : -pi ;
+toolset.flags tms320c5500.compile OPTIONS <inlining>on :  ;
+toolset.flags tms320c5500.compile OPTIONS <inlining>full :  ;
+
+toolset.flags tms320c5500.compile.c++ OPTIONS <rtti>off :  ;
+toolset.flags tms320c5500.compile.c++ OPTIONS <rtti>on : -rtti ;
+
+toolset.flags tms320c5500.compile.c++ OPTIONS <exception-handling>off :  ;
+toolset.flags tms320c5500.compile.c++ OPTIONS <exception-handling>on : --exceptions ;
+
+toolset.flags tms320c5500.compile OPTIONS <warnings>off : -pdw ;
+toolset.flags tms320c5500.compile OPTIONS <warnings>all : ;
+toolset.flags tms320c5500.compile OPTIONS <warnings-as-errors>on : -ps ;
+
+toolset.flags tms320c5500.compile.c OPTIONS <compileflags> ;
+toolset.flags tms320c5500.compile.c++ OPTIONS <compileflags> ;
+toolset.flags tms320c5500.compile.c OPTIONS <cflags> ;
+toolset.flags tms320c5500.compile.c++ OPTIONS <cxxflags> ;
+toolset.flags tms320c5500.compile DEFINES <define> ;
+toolset.flags tms320c5500.compile INCLUDES <include> ;
+
+#toolset.flags tms320c5500.compile.c DEFAULTS : -qq -pc ;
+toolset.flags tms320c5500.compile.c DEFAULTS : -qq ;
+#toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq -pc --static_template_instantiation ;
+toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
+
+# @todo -ft=$(TEMP) is probably a good idea
+# @todo put all these options in a variable or a response file.
+actions compile.c
+{
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ec "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+}
+
+actions compile.c++
+{
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -fg -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+}
+
+toolset.flags tms320c5500.asm OPTIONS <debug-symbols>on : -g ;
+
+toolset.flags tms320c5500.asm OPTIONS <asmflags> ;
+toolset.flags tms320c5500.asm DEFINES <define> ;
+toolset.flags tms320c5500.asm INCLUDES <include> ;
+
+toolset.flags tms320c5500.asm DEFAULTS : -qq ;
+
+actions asm
+{
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ea "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(INCLUDES:W)" -I"$(STDHDRS:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+}
+
+#actions asm
+#{
+#  "$(.root)asm55" -q "$(>:W)" "$(<:W)"
+#}
+
+# Linker
+# @todo add standard library based on processor and endianess settings
+# @todo endianess left at default for now.
+toolset.flags tms320c5500.link DEFAULTS : -qq -w ;
+
+toolset.flags tms320c5500.link LIBRARY_PATH <library-path> ;
+toolset.flags tms320c5500.link FINDLIBS_ST <find-static-library> ;
+toolset.flags tms320c5500.link FINDLIBS_SA <find-shared-library> ;
+toolset.flags tms320c5500.link LIBRARIES <library-file> ;
+
+toolset.flags tms320c5500.link OPTIONS <linkflags> ;
+
+toolset.flags tms320c5500.link LIBRARY_PATH_OPTION  : -i : unchecked ;
+toolset.flags tms320c5500.link LIBRARY_OPTION  : "" : unchecked ;
+
+actions link
+{
+  "$(.root)lnk55" $(DEFAULTS) $(OPTIONS) -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
+}
+
+# Archiver
+toolset.flags tms320c5500.archive AROPTIONS <archiveflags> ;
+
+RM = [ common.rm-command ] ;
+actions together piecemeal archive
+{
+  $(RM) "$(<)"
+  "$(.root)ar55" $(AROPTIONS) qrv "$(<:W)" "$(>:W)"
+}
+
+# Hex Converter
+# @todo Hex should become a top-level target type
+actions hex
+{
+  "$(.root)hex55" -q -byte -o $(<) -map $(<:S=.hex.map) $(>)
+}
+
+# Strip
+# @todo strip should become a top-level target type
+actions strip
+{
+  $(RM) "$(<)"
+  "$(.root)strip55" -p -o $(<) $(>)
+}
+
+# Support for additional architectures
+
+feature.extend architecture :
+  tms320c5500
+  ;
+
+feature.extend instruction-set :
+  tms320c5500
+  tms320c5509
+  tms320c5510
+  ;
+
+local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values + : default ? )
+{
+  if $(default)
+  {
+    # architecture and instruction-set are not set
+    toolset.flags $(toolset) $(variable) <architecture>/<instruction-set> : $(values) ;
+    # instruction-set is not set
+    toolset.flags $(toolset) $(variable) <architecture>$(architecture)/<instruction-set> : $(values) ;
+  }
+  toolset.flags $(toolset) $(variable) <architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
+}
+
+cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5500 : -v5500 : default ;
+cpu-flags tms320c5500.asm     OPTIONS : tms320c5500 : tms320c5500 : -v5500 : default ;
+
+cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5509 : -v5509 ;
+cpu-flags tms320c5500.asm     OPTIONS : tms320c5500 : tms320c5509 : -v5509 ;
+
+cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5510 : -v5510 ;
+cpu-flags tms320c5500.asm     OPTIONS : tms320c5500 : tms320c5510 : -v5510 ;
+
+toolset.flags tms320c5500.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>off : rts55.lib ;
+toolset.flags tms320c5500.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>on : rts55_eh.lib ;
+
+toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5509/<exception-handling>off : rts55.lib ;
+toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5509/<exception-handling>on : rts55_eh.lib ;
+
+toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5510/<exception-handling>off : rts55.lib ;
+toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5510/<exception-handling>on : rts55_eh.lib ;

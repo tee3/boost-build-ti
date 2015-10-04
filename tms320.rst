@@ -1,17 +1,34 @@
-Boost.Build TMS320C6000 Toolset
-===============================
+Boost.Build TMS320 Toolsets
+===========================
 
 Overview
 --------
 
-This toolset supports the Texas Instruments TMS320C6000 Code
-Generation Tools.  The TMS320C6000 Code Generation Tools is a
-cross-compiler for Windows and Linux for the TMS320C6000 family of
-processors that provides highly compliant C89 and C++-03 compilers.
-The toolset extends the architecture and instruction-set features to
-include the TMS320C6000 family of processors.
-
+This toolset supports the Texas Instruments TMS320 Code Generation
+Tools.  The TMS320 denotes a family of DSP processors and encompasses
+the TMS320C2000, TMS320C5400, TMS320C5500, and TMS320C6000 families.
 Note that these compilers compile for bare-metal systems.
+
+Currently, only the TMS320C6000 family of processors is supported.
+
+Supported Development Platforms
+```````````````````````````````
+
+The compilers run on Windows, Linux, and OS X and every effort has
+been made to ensure that these toolsets support proper operation on
+all those platforms.  On Windows, Cygwin is also intended to be
+
+Processor Families
+------------------
+
+TMS320C6000
+```````````
+
+The TMS320C6000 Code Generation Tools is a cross-compiler for Windows
+and Linux for the TMS320C6000 family of processors that provides
+highly compliant C89 and C++-03 compilers.  The toolset extends the
+architecture and instruction-set features to include the TMS320C6000
+family of processors.
 
 Usage
 -----

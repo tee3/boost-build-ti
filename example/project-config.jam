@@ -6,4 +6,4 @@
   modules.poke : BOOST_BUILD_PATH : .. $(x) ;
 }
 
-using tms320c6000 ;
+using tms320c6000 : 7.4.14 : /opt/ti/c6000_7.4.14/bin/cl6x ;

@@ -283,23 +283,5 @@ cpu-flags tms320c6000.asm     OPTIONS : tms320c6000 : tms320c6713 : -mv6713  ;
 cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c67x+ : -mv6700+ ;
 cpu-flags tms320c6000.asm     OPTIONS : tms320c6000 : tms320c67x+ : -mv6700+ ;
 
-toolset.flags tms320c6000.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>off : rts6200.lib ;
-toolset.flags tms320c6000.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>on : rts6200_eh.lib ;
-
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6000/<exception-handling>off : rts6200.lib ;
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6000/<exception-handling>on : rts6200_eh.lib ;
-
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6200/<exception-handling>off : rts6200.lib ;
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6200/<exception-handling>on : rts6200_eh.lib ;
-
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6400/<exception-handling>off : rts6400.lib ;
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6400/<exception-handling>on : rts6400_eh.lib ;
-
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c64x+/<exception-handling>off : rts64plus.lib ;
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c64x+/<exception-handling>on : rts64plus_eh.lib ;
-
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6700/<exception-handling>off : rts6700.lib ;
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c6700/<exception-handling>on : rts6700_eh.lib ;
-
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c67x+/<exception-handling>off : rts67plus.lib ;
-toolset.flags tms320c6000.link STDLIBRARIES <instruction-set>tms320c67x+/<exception-handling>on : rts67plus_eh.lib ;
+# enables auto-linking
+toolset.flags tms320c6000.link STDLIBRARIES : libc.a ;

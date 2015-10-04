@@ -1,0 +1,255 @@
+# Boost.Build support for the Texas Instruments TMS320C2000 Code Generation
+# Tools.
+#
+# @todo add automatic library and runtime selection
+# @todo add linker command file library
+# @todo deal with dynamic linking
+# @todo deal with multi-threaded?
+# @todo deal with windows and Linux host-os
+# @todo :W should be used in all path references, for Cygwin support.
+
+import property ;
+import generators ;
+import os ;
+import type ;
+import toolset ;
+import errors ;
+import feature ;
+import path ;
+import common ;
+import errors ;
+
+import tms320_common ;
+
+if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
+{
+  .debug-configuration = true ;
+}
+
+feature.extend toolset : tms320c2000 ;
+
+rule init ( version ? : command * : options * )
+{
+  # Check that the host operating system is supported.  If it is not,
+  # continue without configuring so we can still build targets that do
+  # not need this toolset.
+  if [ os.name ] = NT || [ os.name ] = CYGWIN || [ os.name ] = LINUX || [ os.name ] = MACOSX
+  {
+    command = [ common.get-invocation-command tms320c2000 : cl2000 : $(command) ] ;
+
+    root = ;
+    if $(command)
+    {
+      root = [ common.get-absolute-tool-path $(command[-1]) ] ;
+      root = $(root:P) ;
+
+      version ?= [ MATCH "^([0-9.]+)" : [ SHELL \""$(command)\" --compiler_revision" ] ] ;
+      if $(version)
+      {
+        local actual_version = [ MATCH "^([0-9.]+)" : [ SHELL \""$(command)\" --compiler_revision" ] ] ;
+        if $(actual_version) != $(version)
+        {
+          errors.user-error "tms320c2000: detected version $(actual_version) does not match desired $(version)" ;
+        }
+      }
+    }
+    else
+    {
+      errors.user-error "tms320c2000: cl2000 not found" ;
+    }
+
+    local condition = [ common.check-init-parameters tms320c2000 : version $(version) ] ;
+
+    common.handle-options tms320c2000 : $(condition) : $(command) : $(options) ;
+
+    # @todo this seems to be the right way, but this is a list somehow
+#    toolset.add-requirements <toolset>tms320c2000:<testing.launcher>"$(root[0])/bin/load2000exe" ;
+
+    if $(.debug-configuration)
+    {
+      ECHO "tms320c2000: using compiler" $(version) "at" $(root) ;
+    }
+
+    toolset.flags tms320c2000.compile STDHDRS $(condition) : $(root)/include ;
+    toolset.flags tms320c2000.link STDLIBPATH $(condition) : $(root)/lib ;
+    toolset.flags tms320c2000.link RUN_PATH $(condition) : $(root)/bin ;
+    toolset.flags tms320c2000 .root $(condition) : $(root)/bin/ ;
+  }
+  else
+  {
+    ECHO "tms320c2000: warning: unsupported operating system" os.name ;
+  }
+}
+
+# type.register H28 : h28 : H ;
+
+# type.register S28 : s28 : ASM ;
+
+# type.register O28 : o28 ;
+
+# type.register A28 : a28 l28 ;
+
+type.set-generated-target-suffix EXE : <toolset>tms320c2000 : out ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c2000 : obj ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c2000 : lib ;
+
+generators.register-linker tms320c2000.link : OBJ STATIC_LIB : EXE : <toolset>tms320c2000 <architecture>tms320c2000 ;
+# generators.register-linker tms320c2000.link : OBJ O28 A28 STATIC_LIB : EXE : <toolset>tms320c2000 <architecture>tms320c2000 <instruction-set>tms320c2800 ;
+
+generators.register-archiver tms320c2000.archive : OBJ : STATIC_LIB : <toolset>tms320c2000 <architecture>tms320c2000 ;
+# generators.register-archiver tms320c2000.archive : OBJ O28 : STATIC_LIB : <toolset>tms320c2000 <architecture>tms320c2000 <instruction-set>tms320c2800 ;
+
+generators.register-c-compiler tms320c2000.compile.c++ : CPP : OBJ : <toolset>tms320c2000 <architecture>tms320c2000 ;
+generators.register-c-compiler tms320c2000.compile.c : C : OBJ : <toolset>tms320c2000 <architecture>tms320c2000 ;
+generators.register-standard tms320c2000.asm : ASM : OBJ : <toolset>tms320c2000 <architecture>tms320c2000 ;
+
+# Declare flags
+
+# Compiler
+
+# @todo work around for now
+toolset.flags tms320c2000.compile OPTIONS <debug-symbols>off : ;
+toolset.flags tms320c2000.compile OPTIONS <debug-symbols>on : -g ;
+
+toolset.flags tms320c2000.compile OPTIONS <optimization>off : ;
+toolset.flags tms320c2000.compile OPTIONS <optimization>speed : -O3 ;
+toolset.flags tms320c2000.compile OPTIONS <optimization>space : -ms=3 ;
+
+# @todo fill in completely
+# toolset.flags tms320c2000.compile OPTIONS <profiling>off :  ;
+# toolset.flags tms320c2000.compile OPTIONS <profiling>on :  ;
+
+# @todo fill in completely
+toolset.flags tms320c2000.compile OPTIONS <inlining>off : -pi ;
+toolset.flags tms320c2000.compile OPTIONS <inlining>on :  ;
+toolset.flags tms320c2000.compile OPTIONS <inlining>full :  ;
+
+toolset.flags tms320c2000.compile.c++ OPTIONS <rtti>off :  ;
+toolset.flags tms320c2000.compile.c++ OPTIONS <rtti>on : -rtti ;
+
+toolset.flags tms320c2000.compile.c++ OPTIONS <exception-handling>off :  ;
+toolset.flags tms320c2000.compile.c++ OPTIONS <exception-handling>on : --exceptions ;
+
+toolset.flags tms320c2000.compile OPTIONS <warnings>off : -pdw ;
+toolset.flags tms320c2000.compile OPTIONS <warnings>all : ;
+toolset.flags tms320c2000.compile OPTIONS <warnings-as-errors>on : -ps ;
+
+toolset.flags tms320c2000.compile.c OPTIONS <compileflags> ;
+toolset.flags tms320c2000.compile.c++ OPTIONS <compileflags> ;
+toolset.flags tms320c2000.compile.c OPTIONS <cflags> ;
+toolset.flags tms320c2000.compile.c++ OPTIONS <cxxflags> ;
+toolset.flags tms320c2000.compile DEFINES <define> ;
+toolset.flags tms320c2000.compile INCLUDES <include> ;
+
+#toolset.flags tms320c2000.compile.c DEFAULTS : -qq -pc ;
+toolset.flags tms320c2000.compile.c DEFAULTS : -qq ;
+#toolset.flags tms320c2000.compile.c++ DEFAULTS : -qq -pc --static_template_instantiation ;
+toolset.flags tms320c2000.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
+
+# @todo -ft=$(TEMP) is probably a good idea
+# @todo put all these options in a variable or a response file.
+actions compile.c
+{
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ec "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+}
+
+actions compile.c++
+{
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -fg -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+}
+
+toolset.flags tms320c2000.asm OPTIONS <debug-symbols>on : -g ;
+
+toolset.flags tms320c2000.asm OPTIONS <asmflags> ;
+toolset.flags tms320c2000.asm DEFINES <define> ;
+toolset.flags tms320c2000.asm INCLUDES <include> ;
+
+toolset.flags tms320c2000.asm DEFAULTS : -qq ;
+
+actions asm
+{
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ea "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(INCLUDES:W)" -I"$(STDHDRS:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+}
+
+#actions asm
+#{
+#  "$(.root)asm2000" -q "$(>:W)" "$(<:W)"
+#}
+
+# Linker
+# @todo add standard library based on processor and endianess settings
+# @todo endianess left at default for now.
+toolset.flags tms320c2000.link DEFAULTS : -qq -w ;
+
+toolset.flags tms320c2000.link LIBRARY_PATH <library-path> ;
+toolset.flags tms320c2000.link FINDLIBS_ST <find-static-library> ;
+toolset.flags tms320c2000.link FINDLIBS_SA <find-shared-library> ;
+toolset.flags tms320c2000.link LIBRARIES <library-file> ;
+
+toolset.flags tms320c2000.link OPTIONS <linkflags> ;
+
+toolset.flags tms320c2000.link LIBRARY_PATH_OPTION  : -i : unchecked ;
+toolset.flags tms320c2000.link LIBRARY_OPTION  : "" : unchecked ;
+
+actions link
+{
+  "$(.root)lnk2000" $(DEFAULTS) $(OPTIONS) -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
+}
+
+# Archiver
+toolset.flags tms320c2000.archive AROPTIONS <archiveflags> ;
+
+RM = [ common.rm-command ] ;
+actions together piecemeal archive
+{
+  $(RM) "$(<)"
+  "$(.root)ar2000" $(AROPTIONS) qrv "$(<:W)" "$(>:W)"
+}
+
+# Hex Converter
+# @todo Hex should become a top-level target type
+actions hex
+{
+  "$(.root)hex2000" -q -byte -o $(<) -map $(<:S=.hex.map) $(>)
+}
+
+# Strip
+# @todo strip should become a top-level target type
+actions strip
+{
+  $(RM) "$(<)"
+  "$(.root)strip2000" -p -o $(<) $(>)
+}
+
+# Support for additional architectures
+
+feature.extend architecture :
+  tms320c2000
+  ;
+
+feature.extend instruction-set :
+  tms320c2000
+  tms320c2800
+  ;
+
+local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values + : default ? )
+{
+  if $(default)
+  {
+    # architecture and instruction-set are not set
+    toolset.flags $(toolset) $(variable) <architecture>/<instruction-set> : $(values) ;
+    # instruction-set is not set
+    toolset.flags $(toolset) $(variable) <architecture>$(architecture)/<instruction-set> : $(values) ;
+  }
+  toolset.flags $(toolset) $(variable) <architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
+}
+
+cpu-flags tms320c2000.compile OPTIONS : tms320c2000 : tms320c2000 : -v28 : default ;
+cpu-flags tms320c2000.asm     OPTIONS : tms320c2000 : tms320c2000 : -v28 : default ;
+
+cpu-flags tms320c2000.compile OPTIONS : tms320c2000 : tms320c2800 : -v28 ;
+cpu-flags tms320c2000.asm     OPTIONS : tms320c2000 : tms320c2800 : -v28 ;
+
+# @note uses auto-linking
+# toolset.flags tms320c2000.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>off : rts2000.lib ;
+# toolset.flags tms320c2000.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>on : rt2000_eh.lib ;

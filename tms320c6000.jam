@@ -260,7 +260,7 @@ local rule cpu-flags ( toolset variable * : architecture : instruction-set + : v
 {
   if $(default)
   {
-    # architecure and instruction-set are not set
+    # architecture and instruction-set are not set
     toolset.flags $(toolset) $(variable) <architecture>/<instruction-set> : $(values) ;
     # instruction-set is not set
     toolset.flags $(toolset) $(variable) <architecture>$(architecture)/<instruction-set> : $(values) ;

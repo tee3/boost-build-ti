@@ -1,3 +1,3 @@
 lib liba : a.cpp ;
 
-exe hello : hello.cpp liba ;
+exe pass : pass.cpp liba ;

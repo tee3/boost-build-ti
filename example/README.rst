@@ -18,5 +18,6 @@ To run this example, run the following command.
 
    $ b2 toolset=tms320c6000 architecture=tms320c6000 instruction-set=tms320c64x+ link=static
 
-Note that there is not currently any way to run the program on the
-host system.
+Note that there is not currently any way to run the resulting programs
+on the host system since Texas Instruments does not generally provide
+a simulator.

@@ -19,6 +19,8 @@ import path ;
 import common ;
 import errors ;
 
+import tms320_common ;
+
 if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
 {
   .debug-configuration = true ;
@@ -98,8 +100,6 @@ type.register A64 : a64 l64 ;
 type.register A64P : a64p a64P l64p l64P ;
 type.register A67 : a67 l67 ;
 type.register A67P : a67p a67P l67p l67P ;
-
-type.register CMD : cmd lcf : IMPORT_LIB ;
 
 type.set-generated-target-suffix EXE : <toolset>tms320c6000 : out ;
 type.set-generated-target-suffix OBJ : <toolset>tms320c6000 : obj ;

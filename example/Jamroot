@@ -1,3 +1,4 @@
 lib liba : a.cpp a.hpp ;
+lib libb : b.c b.h ;
 
-exe pass : pass.cpp liba ;
+exe pass : pass.cpp liba libb ;

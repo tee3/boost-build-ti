@@ -1,5 +1,5 @@
-Boost.Build TMS320C6000 Toolset Example
-=======================================
+Boost.Build Texas Instruments Toolset Example
+=============================================
 
 Overview
 --------
@@ -7,14 +7,15 @@ Overview
 This directory contains an example project comprised of a ``Jamroot``
 and a ``project-config.jam`` along with several source files.  It
 builds several targets (``exe``, ``lib``, ``run``, etc.) to show the
-functionality of the TMS320 toolsets.
+functionality of the toolsets.
 
 Usage
 -----
 
-To run this example for the TMS320C6000 TMS320C64x+ processing
-defaulting the rest of the build parameters, run the following
-command.
+To run this example for a specific set of properties, run using
+Boost.Build as normally.  For example, run the following command to
+build for the TMS320C6000 TMS320C64x+ processor, linking statically,
+and defaulting the rest of the build parameters.
 
 ::
 
@@ -25,6 +26,9 @@ against the main build parameters, run the following command.  This
 will attempt to build a very simple project varying the variant
 (debug, release), linking (static, shared), exception handling (off,
 on), and RTTI (off, on).
+
+Note that since support on all platforms is not consistent, parts of
+the example may need to be disabled on various systems.
 
 ::
 

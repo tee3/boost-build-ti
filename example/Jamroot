@@ -1,4 +1,8 @@
 lib liba : a.cpp a.hpp ;
 lib libb : b.c b.h ;
+lib libd : d_tms320c2000.asm : <toolset>tms320c2000 : : <toolset>tms320c2000 ;
+lib libd : d_tms320c5400.asm : <toolset>tms320c5400 : : <toolset>tms320c5400 ;
+lib libd : d_tms320c5500.asm : <toolset>tms320c5500 : : <toolset>tms320c5500 ;
+lib libd : d_tms320c6000.asm : <toolset>tms320c6000 : : <toolset>tms320c6000 ;
 
-exe pass : pass.cpp liba libb ;
+exe pass : pass.cpp liba libb libd ;

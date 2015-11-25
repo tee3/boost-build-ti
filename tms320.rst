@@ -218,8 +218,9 @@ Fortunately, with Boost.Build, this can be dealt with by associating
 some board-specific source code, libraries, etc. with a board and
 select boards to build for at build time.
 
-The linker command file type is implemented by creating a new type CMD
-that acts like an STATIC_LIB with the extensions .lcf and .cmd.  These
+The linker command file type is implemented by creating a new type
+LINKER_COMMAND_FILE with the extensions .lcf and .cmd that acts like
+an IMPORT_LIB to Boost.Build and is passed to the linker.  These
 should have a dependency scanner looking for -l"filename" since it is
 possible to include both libraries and other linker command files in a
 linker command file.

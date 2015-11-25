@@ -116,18 +116,18 @@ toolset.flags tms320c5400.compile OPTIONS <optimization>speed : -O3 ;
 toolset.flags tms320c5400.compile OPTIONS <optimization>space : -ms=3 ;
 
 # @todo fill in completely
-# toolset.flags tms320c5400.compile OPTIONS <profiling>off :  ;
-# toolset.flags tms320c5400.compile OPTIONS <profiling>on :  ;
+# toolset.flags tms320c5400.compile OPTIONS <profiling>off : ;
+# toolset.flags tms320c5400.compile OPTIONS <profiling>on : ;
 
 # @todo fill in completely
 toolset.flags tms320c5400.compile OPTIONS <inlining>off : -pi ;
-toolset.flags tms320c5400.compile OPTIONS <inlining>on :  ;
-toolset.flags tms320c5400.compile OPTIONS <inlining>full :  ;
+toolset.flags tms320c5400.compile OPTIONS <inlining>on : ;
+toolset.flags tms320c5400.compile OPTIONS <inlining>full : ;
 
-toolset.flags tms320c5400.compile.c++ OPTIONS <rtti>off :  ;
+toolset.flags tms320c5400.compile.c++ OPTIONS <rtti>off : ;
 toolset.flags tms320c5400.compile.c++ OPTIONS <rtti>on : -rtti ;
 
-toolset.flags tms320c5400.compile.c++ OPTIONS <exception-handling>off :  ;
+toolset.flags tms320c5400.compile.c++ OPTIONS <exception-handling>off : ;
 toolset.flags tms320c5400.compile.c++ OPTIONS <exception-handling>on : --exceptions ;
 
 toolset.flags tms320c5400.compile OPTIONS <warnings>off : -pdw ;

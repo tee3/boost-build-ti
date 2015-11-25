@@ -27,9 +27,6 @@ will attempt to build a very simple project varying the variant
 (debug, release), linking (static, shared), exception handling (off,
 on), and RTTI (off, on).
 
-Note that since support on all platforms is not consistent, parts of
-the example may need to be disabled on various systems.
-
 ::
 
    $ ./build.sh
@@ -46,6 +43,12 @@ To print all commands for all targets, run the following command.
 
    $ ./build.sh -a -n
 
-Note that there is not currently any way to run the resulting programs
-on the host system since Texas Instruments does not generally provide
-a simulator.
+Notes
+~~~~~
+
+1. Since support on all platforms is not consistent, parts of the
+   example may need to be disabled on various systems.
+
+2. There is not currently any way to run the resulting programs on the
+   host system since Texas Instruments does not generally provide a
+   simulator.

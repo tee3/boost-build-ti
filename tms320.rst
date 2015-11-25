@@ -233,14 +233,3 @@ that run on these processors.  Should this be supported in the
 compiler or in the operating system file?  Right now, Boost.Build
 deals with that in the compiler definitions for ``gcc`` for example
 assuming that the ``host-os`` is the ``target-os``.
-
-Deal with ``host-os`` better
-````````````````````````````
-
-This may not be required, but it might be necessary to deal with how
-the compiler works on those platforms.  The ``cygwin`` ``host-os``
-definitely requires some special care, but it might be portable to all
-``host-os`` if done properly.
-
-- ``$(x:W)`` should be used in all path references, for cygwin
-  support.

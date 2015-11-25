@@ -52,6 +52,15 @@ type.register O54 : o54 ;
 
 type.register A54 : a54 l54 ;
 
+type.register HEX : hex ;
+#type.register ASCII_HEX ;
+#type.register INTEL_HEX ;
+#type.register MOTOROLA_S1_HEX ;
+#type.register MOTOROLA_S2_HEX ;
+#type.register MOTOROLA_S3_HEX ;
+type.register TI_TAGGED_HEX ;
+#type.register TI_TXT_HEX ;
+
 type.set-generated-target-suffix EXE : <toolset>tms320c5400 : out ;
 type.set-generated-target-suffix OBJ : <toolset>tms320c5400 : obj ;
 type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5400 : lib ;
@@ -65,6 +74,9 @@ generators.register-archiver tms320c5400.archive : OBJ : STATIC_LIB : <toolset>t
 generators.register-c-compiler tms320c5400.compile.c++ : CPP : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
 generators.register-c-compiler tms320c5400.compile.c : C : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
 generators.register-c-compiler tms320c5400.compile.asm : ASM : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
+
+#generators.register-standard tms320c5400.hex : EXE : HEX : <toolset>tms320c5400 ;
+generators.register-standard tms320c5400.hex : EXE : TI_TAGGED_HEX ;
 
 local rule get-major-version ( version )
 {

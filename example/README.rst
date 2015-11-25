@@ -19,7 +19,7 @@ and defaulting the rest of the build parameters.
 
 ::
 
-   $ b2 toolset=tms320c6000 architecture=tms320c6000 instruction-set=tms320c64x+ link=static
+   $ b2 toolset=tms320c6000 architecture=tms320c6000 instruction-set=tms320c64x+ link=static pass
 
 To run all the supported toolsets, architectures, and instruction sets
 against the main build parameters, run the following command.  This
@@ -29,25 +29,26 @@ on), and RTTI (off, on).
 
 ::
 
-   $ ./build.sh
+   $ b2
 
 To force all targets to be rebuilt, run the following command.
 
 ::
 
-   $ ./build.sh -a
+   $ b2 -a
+
 
 To print all commands for all targets, run the following command.
 
 ::
 
-   $ ./build.sh -a -n
+   $ b2 -a -n
 
 Notes
 ~~~~~
 
 1. Since support on all platforms is not consistent, parts of the
-   example may need to be disabled on various systems.
+   example may be disabled on various systems.
 
 2. There is not currently any way to run the resulting programs on the
    host system since Texas Instruments does not generally provide a

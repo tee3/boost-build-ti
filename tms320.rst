@@ -172,7 +172,7 @@ Run-time system
 ```````````````
 
 There is still some work to be done selecting the run-time system.
-There is dependency on exception-handling, sandiness on processors
+There is dependency on exception-handling, endianess on processors
 that have hardware switches, instruction-set, etc.  Also, some systems
 come with the source code and a build tool to tailor the run-time
 system for a particular system.
@@ -220,7 +220,7 @@ select boards to build for at build time.
 The linker command file type is implemented by creating a new type CMD
 that acts like an STATIC_LIB with the extensions .lcf and .cmd.  These
 should have a dependency scanner looking for -l"filename" since it is
-possible to include both libaries and other linker command files in a
+possible to include both libraries and other linker command files in a
 linker command file.
 
 Multi-threading

@@ -7,11 +7,16 @@ iterate_toolset_instruction_sets () {
     architecture=${2}
     instruction_sets=${3}
 
+    variants="debug release"
+    links="static shared"
+    exception_handlings="off on"
+    rttis="off on"
+
     for instruction_set in ${instruction_sets} ; do
-        for variant in debug release ; do
-            for link in static shared ; do
-                for exception_handling in off on ; do
-                    for rtti in off on ; do
+        for variant in ${variants} ; do
+            for link in ${links} ; do
+                for exception_handling in ${exception_handlings} ; do
+                    for rtti in ${rttis} ; do
                         ${b2} \
                             toolset="${toolset}" \
                             architecture="${architecture}" \

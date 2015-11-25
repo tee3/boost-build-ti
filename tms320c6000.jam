@@ -166,17 +166,17 @@ toolset.flags tms320c6000.compile.asm DEFAULTS : -qq ;
 # @todo put all these options in a variable or a response file.
 actions compile.c
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ec "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ec "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
 
 actions compile.c++
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -fg -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -fg -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
 
 actions compile.asm
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ea "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(INCLUDES:W)" -I"$(STDHDRS:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ea "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(INCLUDES:W)" -I"$(STDHDRS:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
 
 # Linker

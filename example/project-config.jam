@@ -10,33 +10,33 @@ import os ;
 
 if [ os.name ] = NT
 {
-  using tms320c2000 : 6.4.4 : C:/ti/ti-cgt-c2000_6.4.4/bin/cl2000 ;
-  using tms320c2000 : 15.3.0 : C:/ti/ti-cgt-c2000_15.3.0/bin/cl2000 ;
-  using tms320c5400 : 4.2.0 : C:/ti/TI_CGT_C5400_4.2.0/bin/cl500 ;
-  using tms320c5500 : 4.4.1 : C:/ti/TI_CGT_C5500_4.4.1/bin/cl55 ;
-  using tms320c6000 : 7.4.14 : C:/ti/c6000_7.4.14/bin/cl6x ;
+  using tms320c2000 :  6.4.4  : $(HOME)/opt/ti/ti-cgt-c2000-6.4.4/bin/cl2000 ;
+  using tms320c2000 : 15.3.0  : $(HOME)/opt/ti/ti-cgt-c2000-15.3.0/bin/cl2000 ;
+  using tms320c5400 :  4.2.0  : $(HOME)/opt/ti/ti-cgt-c5400-4.2.0/bin/cl500 ;
+  using tms320c5500 :  4.4.1  : $(HOME)/opt/ti/ti-cgt-c5500-4.4.1/bin/cl55 ;
+  using tms320c6000 :  7.4.16 : $(HOME)/opt/ti/ti-cgt-c6000-7.4.16/bin/cl6x ;
 }
 else if [ os.name ] = CYGWIN
 {
-  using tms320c2000 : 6.4.4 : /mnt/c/ti/ti-cgt-c2000_6.4.4/bin/cl2000 ;
-  using tms320c2000 : 15.3.0 : /mnt/c/ti/ti-cgt-c2000_15.3.0/bin/cl2000 ;
-  using tms320c5400 : 4.2.0 : /mnt/c/ti/TI_CGT_C5400_4.2.0/bin/cl500 ;
-  using tms320c5500 : 4.4.1 : /mnt/c/ti/TI_CGT_C5500_4.4.1/bin/cl55 ;
-  using tms320c6000 : 7.4.14 : /mnt/c/ti/c6000_7.4.14/bin/cl6x ;
+  using tms320c2000 :  6.4.4  : $(HOME)/opt/ti/ti-cgt-c2000-6.4.4/bin/cl2000 ;
+  using tms320c2000 : 15.3.0  : $(HOME)/opt/ti/ti-cgt-c2000-15.3.0/bin/cl2000 ;
+  using tms320c5400 :  4.2.0  : $(HOME)/opt/ti/ti-cgt-c5400-4.2.0/bin/cl500 ;
+  using tms320c5500 :  4.4.1  : $(HOME)/opt/ti/ti-cgt-c5500-4.4.1/bin/cl55 ;
+  using tms320c6000 :  7.4.16 : $(HOME)/opt/ti/ti-cgt-c6000-7.4.16/bin/cl6x ;
 }
 else if [ os.name ] = LINUX
 {
-  using tms320c2000 : 6.4.4 : /opt/ti/ti-cgt-c2000_6.4.4/bin/cl2000 ;
-  using tms320c2000 : 15.3.0 : /opt/ti/ti-cgt-c2000_15.3.0/bin/cl2000 ;
-  using tms320c5400 : 4.2.0 : /opt/ti/TI_CGT_C5400_4.2.0/bin/cl500 ;
-  using tms320c5500 : 4.4.1 : /opt/ti/TI_CGT_C5500_4.4.1/bin/cl55 ;
-  using tms320c6000 : 7.4.14 : /opt/ti/c6000_7.4.14/bin/cl6x ;
+  using tms320c2000 :  6.4.4  : $(HOME)/opt/ti/ti-cgt-c2000-6.4.4/bin/cl2000 ;
+  using tms320c2000 : 15.3.0  : $(HOME)/opt/ti/ti-cgt-c2000-15.3.0/bin/cl2000 ;
+  using tms320c5400 :  4.2.0  : $(HOME)/opt/ti/ti-cgt-c5400-4.2.0/bin/cl500 ;
+  using tms320c5500 :  4.4.1  : $(HOME)/opt/ti/ti-cgt-c5500-4.4.1/bin/cl55 ;
+  using tms320c6000 :  7.4.14 : $(HOME)/opt/ti/ti-cgt-c6000-7.4.14/bin/cl6x ;
 }
 else if [ os.name ] = MACOSX
 {
-  using tms320c2000 : 6.4.4 : $(HOME)/opt/ti-cgt-c2000_6.4.4/bin/cl2000 ;
-  using tms320c2000 : 15.3.0 : $(HOME)/opt/ti-cgt-c2000_15.3.0/bin/cl2000 ;
-  using tms320c5400 : 4.2.0 : $(HOME)/opt/c5400_4.2.0/bin/cl500 ;
-  using tms320c5500 : 4.4.1 : $(HOME)/opt/c5500_4.4.1/bin/cl55 ;
-  using tms320c6000 : 7.4.14 : $(HOME)/opt/c6000_7.4.14/bin/cl6x ;
+  using tms320c2000 :  6.4.4  : $(HOME)/opt/ti/ti-cgt-c2000-6.4.4/bin/cl2000 ;
+  using tms320c2000 : 15.3.0  : $(HOME)/opt/ti/ti-cgt-c2000-15.3.0/bin/cl2000 ;
+  using tms320c5400 :  4.2.0  : $(HOME)/opt/ti/ti-cgt-c5400-4.2.0/bin/cl500 ;
+  using tms320c5500 :  4.4.1  : $(HOME)/opt/ti/ti-cgt-c5500-4.4.1/bin/cl55 ;
+  using tms320c6000 :  7.4.14 : $(HOME)/opt/ti/ti-cgt-c6000-7.4.14/bin/cl6x ;
 }

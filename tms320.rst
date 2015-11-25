@@ -18,6 +18,19 @@ The compilers run on Windows, Linux, and OS X and every effort has
 been made to ensure that these toolsets support proper operation on
 all those platforms.  On Windows, Cygwin is also fully supported.
 
+The tools should be installed on a per-user basis to allow the
+auto-linking to work and to give the user more control over the
+versions they have installed.  The TI TMS320 tool installers allow for
+this.
+
+Since each installer has a different default and format, so the
+installation directory must be specified explicitly.
+
+* TMS320C2000 6.4.4 - ``${HOME}/opt/ti/ti-cgt-c2000-6.4.4``
+* TMS320C5400 4.2.0 - ``${HOME}/opt/ti/ti-cgt-c5400-4.2.0``
+* TMS320C5500 7.4.16 - ``${HOME}/opt/ti/ti-cgt-c5500-7.4.16``
+* TMS320C6000 8.0.3 - ``${HOME}/opt/ti/ti-cgt-c6000-8.0.3``
+
 Processor Families
 ------------------
 

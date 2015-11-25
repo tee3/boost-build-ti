@@ -103,6 +103,9 @@ generators.register-c-compiler tms320c5500.compile.asm : ASM : OBJ : <toolset>tm
 
 # Declare flags
 
+toolset.flags tms320c5500.link OPTIONS <strip>off : ;
+toolset.flags tms320c5500.link OPTIONS <strip>on : -s ;
+
 toolset.flags tms320c5500.compile OPTIONS <debug-symbols>off : ;
 toolset.flags tms320c5500.compile OPTIONS <debug-symbols>on : -g ;
 
@@ -186,14 +189,6 @@ actions together piecemeal archive
 actions hex
 {
   "$(.root)hex55" -q -byte -o $(<) -map $(<:S=.hex.map) $(>)
-}
-
-# Strip
-# @todo strip should become a top-level target type
-actions strip
-{
-  $(RM) "$(<)"
-  "$(.root)strip55" -p -o $(<) $(>)
 }
 
 # Support for additional architectures

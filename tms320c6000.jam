@@ -122,6 +122,9 @@ generators.register-c-compiler tms320c6000.compile.asm : ASM : OBJ : <toolset>tm
 
 # Declare flags
 
+toolset.flags tms320c6000.link OPTIONS <strip>off : ;
+toolset.flags tms320c6000.link OPTIONS <strip>on : -s ;
+
 toolset.flags tms320c6000.compile OPTIONS <debug-symbols>off : ;
 toolset.flags tms320c6000.compile OPTIONS <debug-symbols>on : -g ;
 
@@ -205,14 +208,6 @@ actions together piecemeal archive
 actions hex
 {
   "$(.root)hex6x" -q -byte -o $(<) -map $(<:S=.hex.map) $(>)
-}
-
-# Strip
-# @todo strip should become a top-level target type
-actions strip
-{
-  $(RM) "$(<)"
-  "$(.root)strip6x" -p -o $(<) $(>)
 }
 
 # Support for additional architectures

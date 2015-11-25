@@ -16,7 +16,7 @@ Supported Development Platforms
 
 The compilers run on Windows, Linux, and OS X and every effort has
 been made to ensure that these toolsets support proper operation on
-all those platforms.  On Windows, Cygwin is also intended to be
+all those platforms.  On Windows, Cygwin is also fully supported.
 
 Processor Families
 ------------------

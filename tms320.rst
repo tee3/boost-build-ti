@@ -61,8 +61,8 @@ directly.
 
    using tms320c6000 : 6.1.2 : /opt/ti/tms320c6000/bin
       :
-         <tms320-family>tms320c6000
-         <tms320-processor>tms320c64x+
+         <architecture>tms320c6000
+         <instruction-set>tms320c64x+
       ;
 
 Once the toolset is configured it should work like any other

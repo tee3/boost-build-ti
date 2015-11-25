@@ -8,7 +8,8 @@ iterate_toolset_instruction_sets () {
     instruction_sets=${3}
 
     variants="debug release"
-    links="static shared"
+#    links="static shared"
+    links="static"
     exception_handlings="off on"
     rttis="off on"
 

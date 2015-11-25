@@ -347,7 +347,7 @@ actions compile.c.3
 
 actions compile.c.4
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ec $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ec $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
 }
 
 rule compile.c++ ( target : sources + : properties * )
@@ -372,7 +372,7 @@ actions compile.c++.3
 
 actions compile.c++.4
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ep $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ep $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
 }
 
 rule compile.asm ( target : sources + : properties * )
@@ -397,7 +397,7 @@ actions compile.asm.3
 
 actions compile.asm.4
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ea $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ea $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
 }
 
 rule link ( target : sources + : properties * )

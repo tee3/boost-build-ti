@@ -153,8 +153,8 @@ toolset.flags tms320c6000.compile OPTIONS <warnings>off : -pdw ;
 toolset.flags tms320c6000.compile OPTIONS <warnings>all : ;
 toolset.flags tms320c6000.compile OPTIONS <warnings-as-errors>on : -ps ;
 
-toolset.flags tms320c6000.compile.c OPTIONS <compileflags> ;
-toolset.flags tms320c6000.compile.c++ OPTIONS <compileflags> ;
+toolset.flags tms320c6000.compile OPTIONS <compileflags> ;
+
 toolset.flags tms320c6000.compile.c OPTIONS <cflags> ;
 toolset.flags tms320c6000.compile.c++ OPTIONS <cxxflags> ;
 toolset.flags tms320c6000.compile.asm OPTIONS <asmflags> ;

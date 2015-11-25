@@ -110,7 +110,6 @@ generators.register-c-compiler tms320c5400.compile.asm : ASM : OBJ : <toolset>tm
 # @todo work around for now
 toolset.flags tms320c5400.compile OPTIONS <debug-symbols>off : ;
 toolset.flags tms320c5400.compile OPTIONS <debug-symbols>on : -g ;
-toolset.flags tms320c5400.asm OPTIONS <debug-symbols>on : -g ;
 
 toolset.flags tms320c5400.compile OPTIONS <optimization>off : ;
 toolset.flags tms320c5400.compile OPTIONS <optimization>speed : -O3 ;

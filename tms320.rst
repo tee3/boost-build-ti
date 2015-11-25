@@ -140,7 +140,8 @@ well.
       ;
 
 This can be used to build a program for several 'platforms' using
-standard Boost.Build mechanisms.
+standard Boost.Build mechanisms.  This assumes that two linker command
+files, ``platform-a.cmd`` and ``platform-b.cmd``, exist.
 
 ::
 

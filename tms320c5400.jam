@@ -229,7 +229,7 @@ feature.extend instruction-set :
   tms320c549
   ;
 
-local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values + : default ? )
+local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values * : default ? )
 {
   if $(default)
   {
@@ -241,7 +241,8 @@ local rule cpu-flags ( toolset variable * : architecture : instruction-set + : v
   toolset.flags $(toolset) $(variable) <architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
 }
 
-cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c541 : -v541 : default ;
+cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c5400 : : default ;
+cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c541 : -v541 ;
 cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c542 : -v542 ;
 cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c543 : -v543 ;
 cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c545 : -v545 ;

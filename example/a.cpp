@@ -1,4 +1,8 @@
+#include "a.hpp"
+
+a_class global_a_class;
+
 void
-a ()
+a (const a_class &)
 {
 }

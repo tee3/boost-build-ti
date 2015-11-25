@@ -130,19 +130,31 @@ toolset.flags tms320c5400.compile OPTIONS <warnings>off : -pdw ;
 toolset.flags tms320c5400.compile OPTIONS <warnings>all : ;
 toolset.flags tms320c5400.compile OPTIONS <warnings-as-errors>on : -ps ;
 
+toolset.flags tms320c5400.link OPTIONS <linkflags> ;
+toolset.flags tms320c5400.archive AROPTIONS <archiveflags> ;
 toolset.flags tms320c5400.compile OPTIONS <compileflags> ;
 
 toolset.flags tms320c5400.compile.c OPTIONS <cflags> ;
 toolset.flags tms320c5400.compile.c++ OPTIONS <cxxflags> ;
 toolset.flags tms320c5400.compile.asm OPTIONS <asmflags> ;
+
 toolset.flags tms320c5400.compile DEFINES <define> ;
 toolset.flags tms320c5400.compile INCLUDES <include> ;
 
+# @todo endianess left at default for now.
+toolset.flags tms320c5400.link DEFAULTS : -qq -w ;
 #toolset.flags tms320c5400.compile.c DEFAULTS : -qq -pc ;
 toolset.flags tms320c5400.compile.c DEFAULTS : -qq ;
 #toolset.flags tms320c5400.compile.c++ DEFAULTS : -qq -pc --static_template_instantiation ;
 toolset.flags tms320c5400.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
 toolset.flags tms320c5400.compile.asm DEFAULTS : -qq ;
+
+toolset.flags tms320c5400.link LIBRARY_PATH <library-path> ;
+toolset.flags tms320c5400.link FINDLIBS_ST <find-static-library> ;
+toolset.flags tms320c5400.link FINDLIBS_SA <find-shared-library> ;
+toolset.flags tms320c5400.link LIBRARIES <library-file> ;
+toolset.flags tms320c5400.link LIBRARY_PATH_OPTION  : -i : unchecked ;
+toolset.flags tms320c5400.link LIBRARY_OPTION  : "" : unchecked ;
 
 # @todo put all these options in a variable or a response file.
 actions compile.c
@@ -160,27 +172,10 @@ actions compile.asm
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ea "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
 
-# Linker
-# @todo endianess left at default for now.
-toolset.flags tms320c5400.link DEFAULTS : -qq -w ;
-
-toolset.flags tms320c5400.link LIBRARY_PATH <library-path> ;
-toolset.flags tms320c5400.link FINDLIBS_ST <find-static-library> ;
-toolset.flags tms320c5400.link FINDLIBS_SA <find-shared-library> ;
-toolset.flags tms320c5400.link LIBRARIES <library-file> ;
-
-toolset.flags tms320c5400.link OPTIONS <linkflags> ;
-
-toolset.flags tms320c5400.link LIBRARY_PATH_OPTION  : -i : unchecked ;
-toolset.flags tms320c5400.link LIBRARY_OPTION  : "" : unchecked ;
-
 actions link
 {
   "$(.root)lnk500" $(DEFAULTS) $(OPTIONS) -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
 }
-
-# Archiver
-toolset.flags tms320c5400.archive AROPTIONS <archiveflags> ;
 
 RM = [ common.rm-command ] ;
 actions together piecemeal archive

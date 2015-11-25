@@ -34,6 +34,18 @@ the example may need to be disabled on various systems.
 
    $ ./build.sh
 
+To force all targets to be rebuilt, run the following command.
+
+::
+
+   $ ./build.sh -a
+
+To print all commands for all targets, run the following command.
+
+::
+
+   $ ./build.sh -a -n
+
 Note that there is not currently any way to run the resulting programs
 on the host system since Texas Instruments does not generally provide
 a simulator.

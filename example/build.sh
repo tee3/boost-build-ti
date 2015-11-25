@@ -1,6 +1,7 @@
 #!/bin/sh
 
 b2="bjam"
+b2_flags="${*}"
 
 iterate_toolset_instruction_sets () {
     toolset=${1}
@@ -25,7 +26,8 @@ iterate_toolset_instruction_sets () {
                             variant="${variant}" \
                             link="${link}" \
                             exception-handling="${exception_handling}" \
-                            rtti="${rtti}"
+                            rtti="${rtti}" \
+                            ${b2_flags}
                     done
                 done
             done

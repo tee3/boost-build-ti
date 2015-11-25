@@ -168,11 +168,6 @@ actions asm
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ea "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(INCLUDES:W)" -I"$(STDHDRS:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
 
-#actions asm
-#{
-#  "$(.root)asm2000" -q "$(>:W)" "$(<:W)"
-#}
-
 # Linker
 # @todo add standard library based on processor and endianess settings
 # @todo endianess left at default for now.

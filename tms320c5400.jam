@@ -128,7 +128,8 @@ toolset.flags tms320c5400.compile.c++ OPTIONS <exception-handling>on : --excepti
 
 toolset.flags tms320c5400.compile OPTIONS <warnings>off : -pdw ;
 toolset.flags tms320c5400.compile OPTIONS <warnings>all : ;
-toolset.flags tms320c5400.compile OPTIONS <warnings-as-errors>on : -ps ;
+# @todo no option for this in this compiler
+toolset.flags tms320c5400.compile OPTIONS <warnings-as-errors>on : ;
 
 toolset.flags tms320c5400.link OPTIONS <linkflags> ;
 toolset.flags tms320c5400.archive AROPTIONS <archiveflags> ;

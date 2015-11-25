@@ -21,6 +21,33 @@ all those platforms.  On Windows, Cygwin is also intended to be
 Processor Families
 ------------------
 
+TMS320C2000
+```````````
+
+The TMS320C2000 Code Generation Tools is a cross-compiler for Windows
+and Linux for the TMS320C2000 family of processors that provides
+highly compliant C89 and C++-03 compilers.  The toolset extends the
+architecture and instruction-set features to include the TMS320C2000
+family of processors.
+
+TMS320C5400
+```````````
+
+The TMS320C5400 Code Generation Tools is a cross-compiler for Windows
+and Linux for the TMS320C5400 family of processors that provides
+highly compliant C89 and C++-03 compilers.  The toolset extends the
+architecture and instruction-set features to include the TMS320C5400
+family of processors.
+
+TMS320C5500
+```````````
+
+The TMS320C5500 Code Generation Tools is a cross-compiler for Windows
+and Linux for the TMS320C5500 family of processors that provides
+highly compliant C89 and C++-03 compilers.  The toolset extends the
+architecture and instruction-set features to include the TMS320C5500
+family of processors.
+
 TMS320C6000
 ```````````
 
@@ -29,6 +56,28 @@ and Linux for the TMS320C6000 family of processors that provides
 highly compliant C89 and C++-03 compilers.  The toolset extends the
 architecture and instruction-set features to include the TMS320C6000
 family of processors.
+
+Since different instructions sets have instructions that not
+compatible with each other, it is possible to use different names to
+clarify the instructions within an assembly file.
+
+``.hXX``
+   Processor-family-specific C header files.
+``.sXX``
+   Processor-family-specific assembler source files.
+``.oXX``
+   Processor-family-specific object files.
+``.aXX`` or ``.lXX``
+   Processor-family-specific library files.
+
+The ``XX`` above can be any of the following:
+
+``62``
+   TMS320C6200 family
+``64``
+   TMS320C6400 family
+``67``
+   TMS320C6700 family
 
 Usage
 -----
@@ -125,30 +174,6 @@ standard Boost.Build mechanisms.
 	    <platform>$(p)
 	 ;
    }
-
-Processor Families
-``````````````````
-
-As there are many different assemblers for each processor family,
-there are several types of files for each processor family.
-
-``.hXX``
-   Processor-family-specific C header files.
-``.sXX``
-   Processor-family-specific assembler source files.
-``.oXX``
-   Processor-family-specific object files.
-``.aXX`` or ``.lXX``
-   Processor-family-specific library files.
-
-The ``XX`` above can be any of the following:
-
-``62``
-   TMS320C6200 family
-``64``
-   TMS320C6400 family
-``67``
-   TMS320C6700 family
 
 Issues
 ------

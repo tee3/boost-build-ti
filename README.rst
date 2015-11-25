@@ -1,19 +1,31 @@
-Boost.Build Toolset for TMS320C6000 Code Generation Tools
-=========================================================
+Boost.Build Toolset for Texas Instruments Code Generation Tools
+===============================================================
 
 .. contents::
 
 Overview
 --------
 
-This directory contains a Boost.Build toolset for the TMS320C6000 Code
-Generation Tools and an example project to exercise the toolset.
+This directory contains a Boost.Build toolset for the Texas
+Instruments Code Generation Tools and an example project to exercise
+the toolset.
+
+Note that this project currently includes only the TMS320 family of
+processors.
 
 Toolset
 -------
 
-See the `documentation <tms320c6000.rst>`__ and the `implementation
-<tms320c6000.jam>`__ for the ``tms320c6000`` toolset.
+See the `TMS320-family documentation <tms320.rst>`__ for a description
+of how to use the TMS320 tools.
+
+See the implementation files for each toolset for implementation
+details.
+
+* `TMS320C2000 <tms320c2000.jam>`__
+* `TMS320C5400 <tms320c5400.jam>`__
+* `TMS320C5500 <tms320c5500.jam>`__
+* `TMS320C6000 <tms320c6000.jam>`__
 
 Example Project
 ----------------

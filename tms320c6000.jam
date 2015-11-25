@@ -122,8 +122,6 @@ generators.register-c-compiler tms320c6000.compile.asm : ASM : OBJ : <toolset>tm
 
 # Declare flags
 
-# Compiler
-
 toolset.flags tms320c6000.compile OPTIONS <debug-symbols>off : ;
 toolset.flags tms320c6000.compile OPTIONS <debug-symbols>on : -g ;
 

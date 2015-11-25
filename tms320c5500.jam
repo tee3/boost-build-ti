@@ -101,7 +101,7 @@ generators.register-archiver tms320c5500.archive : OBJ : STATIC_LIB : <toolset>t
 
 generators.register-c-compiler tms320c5500.compile.c++ : CPP : OBJ : <toolset>tms320c5500 ;
 generators.register-c-compiler tms320c5500.compile.c : C : OBJ : <toolset>tms320c5500 ;
-generators.register-standard tms320c5500.asm : ASM : OBJ : <toolset>tms320c5500 ;
+generators.register-c-compiler tms320c5500.compile.asm : ASM : OBJ : <toolset>tms320c5500 ;
 
 # Declare flags
 
@@ -110,7 +110,6 @@ generators.register-standard tms320c5500.asm : ASM : OBJ : <toolset>tms320c5500 
 # @todo work around for now
 toolset.flags tms320c5500.compile OPTIONS <debug-symbols>off : ;
 toolset.flags tms320c5500.compile OPTIONS <debug-symbols>on : -g ;
-toolset.flags tms320c5500.asm OPTIONS <debug-symbols>on : -g ;
 
 toolset.flags tms320c5500.compile OPTIONS <optimization>off : ;
 toolset.flags tms320c5500.compile OPTIONS <optimization>speed : -O3 ;
@@ -139,17 +138,15 @@ toolset.flags tms320c5500.compile.c OPTIONS <compileflags> ;
 toolset.flags tms320c5500.compile.c++ OPTIONS <compileflags> ;
 toolset.flags tms320c5500.compile.c OPTIONS <cflags> ;
 toolset.flags tms320c5500.compile.c++ OPTIONS <cxxflags> ;
-toolset.flags tms320c5500.asm OPTIONS <asmflags> ;
+toolset.flags tms320c5500.compile.asm OPTIONS <asmflags> ;
 toolset.flags tms320c5500.compile DEFINES <define> ;
-toolset.flags tms320c5500.asm DEFINES <define> ;
 toolset.flags tms320c5500.compile INCLUDES <include> ;
-toolset.flags tms320c5500.asm INCLUDES <include> ;
 
 #toolset.flags tms320c5500.compile.c DEFAULTS : -qq -pc ;
 toolset.flags tms320c5500.compile.c DEFAULTS : -qq ;
 #toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq -pc --static_template_instantiation ;
 toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
-toolset.flags tms320c5500.asm DEFAULTS : -qq ;
+toolset.flags tms320c5500.compile.asm DEFAULTS : -qq ;
 
 # @todo -ft=$(TEMP) is probably a good idea
 # @todo put all these options in a variable or a response file.
@@ -163,7 +160,7 @@ actions compile.c++
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -fg -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
 
-actions asm
+actions compile.asm
 {
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:SW)" -ea "$(>:SW)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(INCLUDES:W)" -I"$(STDHDRS:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
@@ -238,13 +235,8 @@ local rule cpu-flags ( toolset variable * : architecture : instruction-set + : v
 }
 
 cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5500 : -v5500 : default ;
-cpu-flags tms320c5500.asm     OPTIONS : tms320c5500 : tms320c5500 : -v5500 : default ;
-
 cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5509 : -v5509 ;
-cpu-flags tms320c5500.asm     OPTIONS : tms320c5500 : tms320c5509 : -v5509 ;
-
 cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5510 : -v5510 ;
-cpu-flags tms320c5500.asm     OPTIONS : tms320c5500 : tms320c5510 : -v5510 ;
 
 toolset.flags tms320c5500.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>off : rts55.lib ;
 toolset.flags tms320c5500.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>on : rts55_eh.lib ;

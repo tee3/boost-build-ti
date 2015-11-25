@@ -82,6 +82,10 @@ The ``XX`` above can be any of the following:
 Usage
 -----
 
+Once the toolset is configured it should work like any other
+Boost.Build toolset within the constraints of the Texas Instruments
+Code Generation Tools and processor family.
+
 A ``using`` directive without parameters searches for the code
 generation tools in the normal places.  The first to match wins.
 
@@ -102,10 +106,6 @@ not match the desired version, it is an error.
 ::
 
    using tms320c6000 : 6.1.2 : /opt/ti/tms320c6000/bin/cl6x ;
-
-Once the toolset is configured it should work like any other
-Boost.Build toolset within the constraints of the TMS320C6000
-compiler.
 
 Features
 --------
@@ -128,9 +128,10 @@ well.
          hello_special_board.cmd
       ;
 
-This can be used to build a program for several 'platforms' using
-standard Boost.Build mechanisms.  This assumes that two linker command
-files, ``platform-a.cmd`` and ``platform-b.cmd``, exist.
+This can be used to build a program for different 'platforms' using
+standard Boost.Build mechanisms.  The example below assumes that two
+linker command files, ``platform-a.cmd`` and ``platform-b.cmd``,
+exist.
 
 ::
 

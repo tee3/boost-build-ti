@@ -152,7 +152,7 @@ actions compile.c
 
 actions compile.c++
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -fg -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" "$(>:W)"
 }
 
 actions compile.asm

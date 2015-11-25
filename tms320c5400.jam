@@ -93,15 +93,15 @@ type.set-generated-target-suffix EXE : <toolset>tms320c5400 : out ;
 type.set-generated-target-suffix OBJ : <toolset>tms320c5400 : obj ;
 type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5400 : lib ;
 
-generators.register-linker tms320c5400.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5400 <architecture>tms320c5400 ;
-#generators.register-linker tms320c5400.link : OBJ O54 A54 STATIC_LIB : EXE : <toolset>tms320c5400 <architecture>tms320c5400 ;
+generators.register-linker tms320c5400.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5400 ;
+#generators.register-linker tms320c5400.link : OBJ O54 A54 STATIC_LIB : EXE : <toolset>tms320c5400 ;
 
-generators.register-archiver tms320c5400.archive : OBJ : STATIC_LIB : <toolset>tms320c5400 <architecture>tms320c5400 ;
-#generators.register-archiver tms320c5400.archive : OBJ O54 : STATIC_LIB : <toolset>tms320c5400 <architecture>tms320c5400 ;
+generators.register-archiver tms320c5400.archive : OBJ : STATIC_LIB : <toolset>tms320c5400 ;
+#generators.register-archiver tms320c5400.archive : OBJ O54 : STATIC_LIB : <toolset>tms320c5400 ;
 
-generators.register-c-compiler tms320c5400.compile.c++ : CPP : OBJ : <toolset>tms320c5400 <architecture>tms320c5400 ;
-generators.register-c-compiler tms320c5400.compile.c : C : OBJ : <toolset>tms320c5400 <architecture>tms320c5400 ;
-generators.register-standard tms320c5400.asm : ASM : OBJ : <toolset>tms320c5400 <architecture>tms320c5400 ;
+generators.register-c-compiler tms320c5400.compile.c++ : CPP : OBJ : <toolset>tms320c5400 ;
+generators.register-c-compiler tms320c5400.compile.c : C : OBJ : <toolset>tms320c5400 ;
+generators.register-standard tms320c5400.asm : ASM : OBJ : <toolset>tms320c5400 ;
 
 # Declare flags
 

@@ -9,7 +9,7 @@ Tools.  The TMS320 denotes a family of DSP processors and encompasses
 the TMS320C2000, TMS320C5400, TMS320C5500, and TMS320C6000 families.
 Note that these compilers compile for bare-metal systems.
 
-Currently, only the TMS320C6000 family of processors is supported.
+Currently, only the TMS320 family of processors is supported.
 
 Supported Development Platforms
 ```````````````````````````````

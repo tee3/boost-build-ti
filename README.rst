@@ -31,4 +31,14 @@ Testing
 -------
 
 This project can be tested using the `Boost.Build Toolset Tester
-<https://github.com/tee3/boost-build-toolset-tester>`__.
+<https://github.com/tee3/boost-build-toolset-tester>`__.  There is a
+branch ``devel-ti``, which configures the toolsets.
+
+.. code:: sh
+
+   $ b2 --test-config=user-config.jam \
+         toolset=tms320c2000 \
+         toolset=tms320c5400 \
+         toolset=tms320c5500 \
+         toolset=tms320c6000 \
+         link=static

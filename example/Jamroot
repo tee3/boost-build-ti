@@ -2,8 +2,8 @@
 {
   import modules ;
 
-  local x = [ modules.peek : BOOST_BUILD_PATH ] ;
-  modules.poke : BOOST_BUILD_PATH : .. $(x) ;
+  local boost-build-path = [ modules.peek : BOOST_BUILD_PATH ] ;
+  modules.poke : BOOST_BUILD_PATH : .. $(boost-build-path) ;
 }
 
 import os ;

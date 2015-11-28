@@ -143,9 +143,7 @@ toolset.flags tms320c5500.compile INCLUDES <include> ;
 
 # @todo endianess left at default for now.
 toolset.flags tms320c5500.link DEFAULTS : -qq ;
-#toolset.flags tms320c5500.compile.c DEFAULTS : -qq -pc ;
 toolset.flags tms320c5500.compile.c DEFAULTS : -qq ;
-#toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq -pc --static_template_instantiation ;
 toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
 toolset.flags tms320c5500.compile.asm DEFAULTS : -qq ;
 

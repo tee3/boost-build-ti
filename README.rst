@@ -7,8 +7,8 @@ Overview
 --------
 
 This directory contains a Boost.Build toolset for the Texas
-Instruments Code Generation Tools and an example project to exercise
-the toolset.
+Instruments Code Generation Tools and documentation for those
+toolsets.
 
 Note that this project currently includes only the TMS320 family of
 processors.
@@ -27,8 +27,8 @@ details.
 * `TMS320C5500 <tms320c5500.jam>`__
 * `TMS320C6000 <tms320c6000.jam>`__
 
-Example Project
-----------------
+Testing
+-------
 
-See the `documentation <example/README.rst>`__ for the `example
-project <example>`__.
+This project can be tested using the `Boost.Build Toolset Tester
+<https://github.com/tee3/boost-build-toolset-tester>`__.

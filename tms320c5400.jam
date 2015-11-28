@@ -11,6 +11,7 @@ import generators ;
 import os ;
 import type ;
 import toolset ;
+import testing ;
 import errors ;
 import feature ;
 import path ;
@@ -60,8 +61,8 @@ rule init ( version ? : command * : options * )
 
     common.handle-options tms320c5400 : $(condition) : $(command) : $(options) ;
 
-    # @todo this seems to be the right way, but this is a list somehow
-#    toolset.add-requirements <toolset>tms320c5400:<testing.launcher>"$(root[0])/bin/load500exe" ;
+    #toolset.add-requirements <toolset>tms320c5400:<testing.launcher>"$(root[0])/bin/load500.exe" ;
+    toolset.add-requirements <toolset>tms320c5400:<testing.launcher>echo ;
 
     if $(.debug-configuration)
     {

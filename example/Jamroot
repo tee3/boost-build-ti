@@ -1,9 +1,11 @@
+path-constant root : .. ;
+
 # @todo HACK - add tools to the Boost.Build path
 {
   import modules ;
 
   local boost-build-path = [ modules.peek : BOOST_BUILD_PATH ] ;
-  modules.poke : BOOST_BUILD_PATH : .. $(boost-build-path) ;
+  modules.poke : BOOST_BUILD_PATH : $(root) $(boost-build-path) ;
 }
 
 import os ;

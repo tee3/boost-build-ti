@@ -139,6 +139,7 @@ toolset.flags tms320c2000.compile.c OPTIONS <cflags> ;
 toolset.flags tms320c2000.compile.c++ OPTIONS <cxxflags> ;
 toolset.flags tms320c2000.compile.asm OPTIONS <asmflags> ;
 toolset.flags tms320c2000.compile DEFINES <define> ;
+toolset.flags tms320c2000.compile UNDEFINES <undef> ;
 toolset.flags tms320c2000.compile INCLUDES <include> ;
 
 # @todo endianess left at default for now.
@@ -157,17 +158,17 @@ toolset.flags tms320c2000.link LIBRARY_OPTION  : "" : unchecked ;
 # @todo put all these options in a variable or a response file.
 actions compile.c
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ec "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" -ft="$(<:DW)" --pp_directory="$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ec "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -U"$(UNDEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" -ft="$(<:DW)" --pp_directory="$(<:DW)" "$(>:W)"
 }
 
 actions compile.c++
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" -ft="$(<:DW)" --pp_directory="$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -U"$(UNDEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" -ft="$(<:DW)" --pp_directory="$(<:DW)" "$(>:W)"
 }
 
 actions compile.asm
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ea "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" -ft="$(<:DW)" --pp_directory="$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ea "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -U"$(UNDEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr="$(<:DW)" -fs="$(<:DW)" -ft="$(<:DW)" --pp_directory="$(<:DW)" "$(>:W)"
 }
 
 actions link

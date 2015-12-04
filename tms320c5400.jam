@@ -88,8 +88,11 @@ type.register O54 : o54 ;
 type.register A54 : a54 l54 ;
 
 type.set-generated-target-suffix EXE : <toolset>tms320c5400 : out ;
+type.set-generated-target-suffix EXE : <toolset>tms320c5400 <target-os>windows : out ;
 type.set-generated-target-suffix OBJ : <toolset>tms320c5400 : obj ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c5400 <target-os>windows : obj ;
 type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5400 : lib ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5400 <target-os>windows : lib ;
 
 generators.register-linker tms320c5400.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5400 ;
 #generators.register-linker tms320c5400.link : OBJ O54 A54 STATIC_LIB : EXE : <toolset>tms320c5400 ;

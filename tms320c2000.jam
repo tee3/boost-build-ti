@@ -88,8 +88,11 @@ rule init ( version ? : command * : options * )
 # type.register A28 : a28 l28 ;
 
 type.set-generated-target-suffix EXE : <toolset>tms320c2000 : out ;
+type.set-generated-target-suffix EXE : <toolset>tms320c2000 <target-os>windows : out ;
 type.set-generated-target-suffix OBJ : <toolset>tms320c2000 : obj ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c2000 <target-os>windows : obj ;
 type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c2000 : lib ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c2000 <target-os>windows : lib ;
 
 generators.register-linker tms320c2000.link : OBJ STATIC_LIB : EXE : <toolset>tms320c2000 ;
 # generators.register-linker tms320c2000.link : OBJ O28 A28 STATIC_LIB : EXE : <toolset>tms320c2000 <architecture>tms320c2000 <instruction-set>tms320c2800 ;

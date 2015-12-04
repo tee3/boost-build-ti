@@ -88,8 +88,11 @@ type.register O55 : o55 ;
 type.register A55 : a55 l55 ;
 
 type.set-generated-target-suffix EXE : <toolset>tms320c5500 : out ;
+type.set-generated-target-suffix EXE : <toolset>tms320c5500 <target-os>windows : out ;
 type.set-generated-target-suffix OBJ : <toolset>tms320c5500 : obj ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c5500 <target-os>windows : obj ;
 type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5500 : lib ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5500 <target-os>windows : lib ;
 
 generators.register-linker tms320c5500.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5500 ;
 #generators.register-linker tms320c5500.link : OBJ O55 A55 STATIC_LIB : EXE : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 ;

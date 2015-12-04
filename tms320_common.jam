@@ -1,3 +1,9 @@
+import feature ;
 import type ;
+
+if ! ( baremetal in [ feature.values target-os ] )
+{
+  feature.extend target-os : baremetal ;
+}
 
 type.register LINKER_COMMAND_FILE : cmd lcf : IMPORT_LIB ;

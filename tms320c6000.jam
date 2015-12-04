@@ -110,28 +110,25 @@ type.register A67 : a67 l67 ;
 type.register A67P : a67p a67P l67p l67P ;
 
 type.set-generated-target-suffix EXE : <toolset>tms320c6000 : out ;
-type.set-generated-target-suffix EXE : <toolset>tms320c6000 <target-os>windows : out ;
 type.set-generated-target-suffix OBJ : <toolset>tms320c6000 : obj ;
-type.set-generated-target-suffix OBJ : <toolset>tms320c6000 <target-os>windows : obj ;
 type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c6000 : lib ;
-type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c6000 <target-os>windows : lib ;
 
-generators.register-linker tms320c6000.link : OBJ O62 A62 STATIC_LIB : EXE : <toolset>tms320c6000 ;
-generators.register-linker tms320c6000.link : OBJ O62 O64 O64P A62 A64 STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6400 ;
-generators.register-linker tms320c6000.link : OBJ O62 O64 O64P A62 A64 A64P STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c64x+ ;
-generators.register-linker tms320c6000.link : OBJ O62 O67 O67P A62 A67 STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6700 ;
-generators.register-linker tms320c6000.link : OBJ O62 O67 O67P A62 A67 STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6713 ;
-generators.register-linker tms320c6000.link : OBJ O62 O67 O67P A62 A67 A67P STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c67x+ ;
+generators.register-linker tms320c6000.link : OBJ O62 A62 STATIC_LIB : EXE : <toolset>tms320c6000 <target-os>baremetal ;
+generators.register-linker tms320c6000.link : OBJ O62 O64 O64P A62 A64 STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6400 <target-os>baremetal ;
+generators.register-linker tms320c6000.link : OBJ O62 O64 O64P A62 A64 A64P STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c64x+ <target-os>baremetal ;
+generators.register-linker tms320c6000.link : OBJ O62 O67 O67P A62 A67 STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6700 <target-os>baremetal ;
+generators.register-linker tms320c6000.link : OBJ O62 O67 O67P A62 A67 STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6713 <target-os>baremetal ;
+generators.register-linker tms320c6000.link : OBJ O62 O67 O67P A62 A67 A67P STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c67x+ <target-os>baremetal ;
 
-generators.register-archiver tms320c6000.archive : OBJ O62 : STATIC_LIB : <toolset>tms320c6000 ;
-generators.register-archiver tms320c6000.archive : OBJ O62 O64 : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6400 ;
-generators.register-archiver tms320c6000.archive : OBJ O62 O64 O64P : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c64x+ ;
-generators.register-archiver tms320c6000.archive : OBJ O62 O67 : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6700 ;
-generators.register-archiver tms320c6000.archive : OBJ O62 O67 O67P : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c67x+ ;
+generators.register-archiver tms320c6000.archive : OBJ O62 : STATIC_LIB : <toolset>tms320c6000 <target-os>baremetal ;
+generators.register-archiver tms320c6000.archive : OBJ O62 O64 : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6400 <target-os>baremetal ;
+generators.register-archiver tms320c6000.archive : OBJ O62 O64 O64P : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c64x+ <target-os>baremetal ;
+generators.register-archiver tms320c6000.archive : OBJ O62 O67 : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6700 <target-os>baremetal ;
+generators.register-archiver tms320c6000.archive : OBJ O62 O67 O67P : STATIC_LIB : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c67x+ <target-os>baremetal ;
 
-generators.register-c-compiler tms320c6000.compile.c++ : CPP : OBJ : <toolset>tms320c6000 ;
-generators.register-c-compiler tms320c6000.compile.c : C : OBJ : <toolset>tms320c6000 ;
-generators.register-c-compiler tms320c6000.compile.asm : ASM : OBJ : <toolset>tms320c6000 ;
+generators.register-c-compiler tms320c6000.compile.c++ : CPP : OBJ : <toolset>tms320c6000 <target-os>baremetal ;
+generators.register-c-compiler tms320c6000.compile.c : C : OBJ : <toolset>tms320c6000 <target-os>baremetal ;
+generators.register-c-compiler tms320c6000.compile.asm : ASM : OBJ : <toolset>tms320c6000 <target-os>baremetal ;
 
 # Declare flags
 

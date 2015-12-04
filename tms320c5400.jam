@@ -48,13 +48,17 @@ rule init ( version ? : command * : options * )
         local actual_version = [ MATCH "^([0-9.]+)" : [ SHELL \""$(command)\" --compiler_revision" ] ] ;
         if $(actual_version) != $(version)
         {
-          errors.user-error "tms320c5400: detected version $(actual_version) does not match desired $(version)" ;
+          errors.user-error "tms320c5400: detected version (" $(actual_version) ") does not match desired (" $(version) ")" ;
         }
+      }
+      else
+      {
+        errors.user-error "tms320c5400: no version detected" ;
       }
     }
     else
     {
-      errors.user-error "tms320c5400: cl500 not found" ;
+      errors.user-error "tms320c5400: cl500 not found at" $(command) ;
     }
 
     local condition = [ common.check-init-parameters tms320c5400 : version $(version) ] ;

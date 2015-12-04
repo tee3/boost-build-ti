@@ -36,12 +36,8 @@ rule init ( version ? : command * : options * )
   {
     command = [ common.get-invocation-command tms320c6000 : cl6x : $(command) ] ;
 
-    root = ;
     if $(command)
     {
-      root = [ common.get-absolute-tool-path $(command[-1]) ] ;
-      root = $(root:P) ;
-
       version ?= [ MATCH "^([0-9.]+)" : [ SHELL \""$(command)\" --compiler_revision" ] ] ;
       if $(version)
       {
@@ -60,6 +56,9 @@ rule init ( version ? : command * : options * )
     {
       errors.user-error "tms320c6000: cl6x not found at" $(command) ;
     }
+
+    root = [ common.get-absolute-tool-path $(command[-1]) ] ;
+    root = $(root:P) ;
 
     local condition = [ common.check-init-parameters tms320c6000 : version $(version) ] ;
 

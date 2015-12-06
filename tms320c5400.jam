@@ -12,6 +12,7 @@ import os ;
 import type ;
 import toolset ;
 import testing ;
+import regex ;
 import errors ;
 import feature ;
 import path ;
@@ -66,8 +67,13 @@ rule init ( version ? : command * : options * )
       errors.user-error "tms320c5400: cl500 not found at" $(command) ;
     }
 
+    local major-version = [ regex.match "^([0-9]+)\..*$" : $(version) ] ;
+
     root = [ common.get-absolute-tool-path $(command[-1]) ] ;
-    root = $(root:P) ;
+    if $(major-version) > 3
+    {
+      root = $(root:P) ;
+    }
 
     local condition = [ common.check-init-parameters tms320c5400 : version $(version) ] ;
 
@@ -81,10 +87,20 @@ rule init ( version ? : command * : options * )
       ECHO "tms320c5400: using compiler" $(version) "at" $(root) ;
     }
 
-    toolset.flags tms320c5400.compile STDHDRS $(condition) : $(root)/include ;
-    toolset.flags tms320c5400.link STDLIBPATH $(condition) : $(root)/lib ;
-    toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root)/bin ;
-    toolset.flags tms320c5400 .root $(condition) : $(root)/bin/ ;
+    if $(major-version) > 3
+    {
+      toolset.flags tms320c5400.compile STDHDRS $(condition) : $(root)/include ;
+      toolset.flags tms320c5400.link STDLIBPATH $(condition) : $(root)/lib ;
+      toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root)/bin ;
+      toolset.flags tms320c5400 .root $(condition) : $(root)/bin/ ;
+    }
+    else
+    {
+      toolset.flags tms320c5400.compile STDHDRS $(condition) : $(root) ;
+      toolset.flags tms320c5400.link STDLIBPATH $(condition) : $(root) ;
+      toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root) ;
+      toolset.flags tms320c5400 .root $(condition) : $(root) ;
+    }
   }
   else
   {

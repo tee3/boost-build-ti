@@ -40,7 +40,8 @@ rule init ( version ? : command * : options * )
     {
       local output-lines = [ SPLIT_BY_CHARACTERS [ SHELL "\"$(command)\"" ] : "\n" ] ;
 
-      local detected-version = [ MATCH "([0-9]+\\.[0-9]+\\.[0-9]+)" : $(output-lines[1]) ] ;
+      local detected-version-components = [ MATCH "([0-9]+\\.[0-9]+(\\.[0-9]+)?)" : $(output-lines[1]) ] ;
+      local detected-version = $(detected-version-components[1]) ;
 
       if ! $(detected-version)
       {

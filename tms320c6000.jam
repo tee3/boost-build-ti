@@ -38,24 +38,26 @@ rule init ( version ? : command * : options * )
 
     if $(command)
     {
-      local output-lines = ;
+      local output-lines = [ SPLIT_BY_CHARACTERS [ SHELL "\"$(command)\"" ] : "\n" ] ;
 
-      output-lines = [ SPLIT_BY_CHARACTERS [ SHELL "\"$(command)\"" ] : "\n" ] ;
+      local detected-version = [ MATCH "([0-9]+\\.[0-9]+\\.[0-9]+)" : $(output-lines[1]) ] ;
 
-      version ?= [ MATCH "([0-9]+\\.[0-9]+\\.[0-9]+)" : $(output-lines[1]) ] ;
+      if ! $(detected-version)
+      {
+        errors.user-error "tms320c6000: no version detected" ;
+      }
+
       if $(version)
       {
-        output-lines = [ SPLIT_BY_CHARACTERS [ SHELL "\"$(command)\"" ] : "\n" ] ;
-
-        local detected-version = [ MATCH "([0-9]+\\.[0-9]+\\.[0-9]+)" : $(output-lines[1]) ] ;
         if $(detected-version) != $(version)
         {
           errors.user-error "tms320c6000: detected version (" $(detected-version) ") does not match desired (" $(version) ")" ;
         }
       }
-      else
+
+      if $(detected-version)
       {
-        errors.user-error "tms320c6000: no version detected" ;
+        version = $(detected-version) ;
       }
     }
     else

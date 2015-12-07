@@ -161,6 +161,8 @@ toolset.flags tms320c2000.compile.c DEFAULTS : -qq ;
 toolset.flags tms320c2000.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
 toolset.flags tms320c2000.compile.asm DEFAULTS : -qq ;
 
+toolset.flags tms320c2000.link DEFINES <define> ;
+toolset.flags tms320c2000.link UNDEFINES <undef> ;
 toolset.flags tms320c2000.link LIBRARY_PATH <library-path> ;
 toolset.flags tms320c2000.link FINDLIBS_ST <find-static-library> ;
 toolset.flags tms320c2000.link FINDLIBS_SA <find-shared-library> ;
@@ -186,7 +188,7 @@ actions compile.asm
 
 actions link
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define "$(DEFINES)" -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define="$(DEFINES)" --undefine="$(UNDEFINES)" -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
 }
 
 RM = [ common.rm-command ] ;

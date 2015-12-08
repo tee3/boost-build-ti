@@ -97,7 +97,7 @@ rule init ( version ? : command * : options * )
       toolset.flags tms320c5400.compile STDHDRS $(condition) : $(root)/include ;
       toolset.flags tms320c5400.link STDLIBPATH $(condition) : $(root)/lib ;
       toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root)/bin ;
-      toolset.flags tms320c5400 .root $(condition) : $(root)/bin/ ;
+      toolset.flags tms320c5400 .root $(condition) : $(root)/bin ;
     }
     else
     {
@@ -218,14 +218,14 @@ RM = [ common.rm-command ] ;
 actions together piecemeal archive
 {
   $(RM) "$(<)"
-  "$(.root)ar500" $(AROPTIONS) qrv "$(<:W)" "$(>:W)"
+  "$(.root)/ar500" $(AROPTIONS) qrv "$(<:W)" "$(>:W)"
 }
 
 # Hex Converter
 # @todo Hex should become a top-level target type
 actions hex
 {
-  "$(.root)hex500" -q -byte -o $(<) -map $(<:S=.hex.map) $(>)
+  "$(.root)/hex500" -q -byte -o $(<) -map $(<:S=.hex.map) $(>)
 }
 
 # Support for additional architectures

@@ -69,6 +69,11 @@ rule init ( version ? : command * : options * )
 
     local major-version = [ regex.match "^([0-9]+)\..*$" : $(version) ] ;
 
+    if $(major-version) < 4
+    {
+      errors.user-error "tms320c5400: detected version" $(version) " is not supported (< 4)." ;
+    }
+
     root = [ common.get-absolute-tool-path $(command[-1]) ] ;
     if $(major-version) > 3
     {

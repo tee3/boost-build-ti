@@ -162,6 +162,7 @@ toolset.flags tms320c6000.compile.c++ OPTIONS <exception-handling>on : --excepti
 toolset.flags tms320c6000.compile OPTIONS <warnings>off : -pdw ;
 toolset.flags tms320c6000.compile OPTIONS <warnings>all : ;
 
+toolset.flags tms320c6000.compile OPTIONS <warnings-as-errors>off : ;
 toolset.flags tms320c6000.compile OPTIONS <warnings-as-errors>on : -pdew ;
 
 toolset.flags tms320c6000.link OPTIONS <linkflags> ;

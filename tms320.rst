@@ -11,6 +11,13 @@ Note that these compilers compile for bare-metal systems.
 
 Currently, only the TMS320 family of processors is supported.
 
+The toolsets support the following TI CGT families and versions.
+
+* TI CGT C2000 6.0.0 and newer
+* TI CGT C5400 4.0.0 and newer
+* TI CGT C5400 4.0.0 and newer
+* TI CGT C5400 6.0.0 and newer
+
 Supported Development Platforms
 ```````````````````````````````
 
@@ -24,7 +31,8 @@ versions they have installed.  The TI TMS320 tool installers allow for
 this.
 
 Since each installer has a different default and format, so the
-installation directory must be specified explicitly.
+installation directory must be specified explicitly.  For example, the
+compiler version for each family would be installed as follow.
 
 * TMS320C2000 6.4.4 - ``${HOME}/opt/ti/ti-cgt-c2000-6.4.4``
 * TMS320C5400 4.2.0 - ``${HOME}/opt/ti/ti-cgt-c5400-4.2.0``

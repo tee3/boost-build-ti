@@ -28,6 +28,11 @@ if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
 
 feature.extend toolset : tms320c5400 ;
 
+local rule get-major-version ( version )
+{
+  return [ regex.match "^([0-9]+)\..*$" : $(version) ] ;
+}
+
 rule init ( version ? : command * : options * )
 {
   # Check that the host operating system is supported.  If it is not,
@@ -67,7 +72,7 @@ rule init ( version ? : command * : options * )
       errors.user-error "tms320c5400: cl500 not found at" $(command) ;
     }
 
-    local major-version = [ regex.match "^([0-9]+)\..*$" : $(version) ] ;
+    local major-version = [ get-major-version $(version) ] ;
 
     if $(major-version) < 4
     {

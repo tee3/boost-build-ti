@@ -236,12 +236,3 @@ local rule cpu-flags ( toolset variable * : architecture : instruction-set + : v
 cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5500 : -v5500 : default ;
 cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5509 : -v5509 ;
 cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5510 : -v5510 ;
-
-toolset.flags tms320c5500.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>off : rts55.lib ;
-toolset.flags tms320c5500.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>on : rts55_eh.lib ;
-
-toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5509/<exception-handling>off : rts55.lib ;
-toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5509/<exception-handling>on : rts55_eh.lib ;
-
-toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5510/<exception-handling>off : rts55.lib ;
-toolset.flags tms320c5500.link STDLIBRARIES <instruction-set>tms320c5510/<exception-handling>on : rts55_eh.lib ;

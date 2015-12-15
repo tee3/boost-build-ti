@@ -263,6 +263,3 @@ cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c64x+ : -mv6400+ ;
 cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6700 : -mv6700  ;
 cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6713 : -mv6713  ;
 cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c67x+ : -mv6700+ ;
-
-# enables auto-linking
-toolset.flags tms320c6000.link STDLIBRARIES : libc.a ;

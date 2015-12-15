@@ -234,7 +234,3 @@ local rule cpu-flags ( toolset variable * : architecture : instruction-set + : v
 
 cpu-flags tms320c2000.compile OPTIONS : tms320c2000 : tms320c2000 : -v28 : default ;
 cpu-flags tms320c2000.compile OPTIONS : tms320c2000 : tms320c2800 : -v28 ;
-
-# @note uses auto-linking
-# toolset.flags tms320c2000.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>off : rts2000.lib ;
-# toolset.flags tms320c2000.link STDLIBRARIES <architecture>/<instruction-set>/<exception-handling>on : rt2000_eh.lib ;

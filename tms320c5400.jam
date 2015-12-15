@@ -276,6 +276,3 @@ cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c545lp : -v545lp ;
 cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c546lp : -v546lp ;
 cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c548 : -v548 ;
 cpu-flags tms320c5400.compile OPTIONS : tms320c5400 : tms320c549 : -v549 ;
-
-toolset.flags tms320c5400.link STDLIBRARIES <exception-handling>off : rts500.lib ;
-toolset.flags tms320c5400.link STDLIBRARIES <exception-handling>on : rts500_eh.lib ;

@@ -172,6 +172,8 @@ toolset.flags tms320c5500.link LIBRARIES <library-file> ;
 toolset.flags tms320c5500.link LIBRARY_PATH_OPTION  : -i : unchecked ;
 toolset.flags tms320c5500.link LIBRARY_OPTION  : "" : unchecked ;
 
+toolset.flags tms320c5500.hex OPTIONS <flags> ;
+
 # @todo put all these options in a variable or a response file.
 actions compile.c
 {
@@ -204,7 +206,7 @@ actions together piecemeal archive
 # @todo Hex should become a top-level target type
 actions hex
 {
-  "$(.root)/hex55" -q -o"$(<)" -map $(<:S=.hex.map) $(>)
+  "$(.root)/hex55" -q $(OPTIONS) -o"$(<)" -map $(<:S=.hex.map) $(>)
 }
 
 # Support for additional architectures

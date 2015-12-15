@@ -232,7 +232,7 @@ actions together piecemeal archive
 # @todo Hex should become a top-level target type
 actions hex
 {
-  "$(.root)/hex500" -q -byte -o $(<) -map $(<:S=.hex.map) $(>)
+  "$(.root)/hex500" -q -o"$(<)" -map $(<:S=.hex.map) $(>)
 }
 
 # Support for additional architectures

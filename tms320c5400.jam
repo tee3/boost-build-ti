@@ -99,17 +99,21 @@ rule init ( version ? : command * : options * )
 
     if $(major-version) > 3
     {
+      toolset.flags tms320c5400 .bin $(condition) : $(root)/bin ;
+
       toolset.flags tms320c5400.compile STDHDRS $(condition) : $(root)/include ;
+
       toolset.flags tms320c5400.link STDLIBPATH $(condition) : $(root)/lib ;
       toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root)/bin ;
-      toolset.flags tms320c5400 .bin $(condition) : $(root)/bin ;
     }
     else
     {
+      toolset.flags tms320c5400 .bin $(condition) : $(root) ;
+
       toolset.flags tms320c5400.compile STDHDRS $(condition) : $(root) ;
+
       toolset.flags tms320c5400.link STDLIBPATH $(condition) : $(root) ;
       toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root) ;
-      toolset.flags tms320c5400 .bin $(condition) : $(root) ;
     }
   }
   else

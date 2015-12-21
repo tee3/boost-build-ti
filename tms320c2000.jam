@@ -81,10 +81,12 @@ rule init ( version ? : command * : options * )
       ECHO "tms320c2000: using compiler" $(version) "at" $(root) ;
     }
 
+    toolset.flags tms320c2000 .bin $(condition) : $(root)/bin ;
+
     toolset.flags tms320c2000.compile STDHDRS $(condition) : $(root)/include ;
+
     toolset.flags tms320c2000.link STDLIBPATH $(condition) : $(root)/lib ;
     toolset.flags tms320c2000.link RUN_PATH $(condition) : $(root)/bin ;
-    toolset.flags tms320c2000 .bin $(condition) : $(root)/bin ;
   }
   else
   {

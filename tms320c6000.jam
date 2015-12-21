@@ -41,6 +41,30 @@ feature.extend instruction-set :
   tms320c67x+
   ;
 
+type.register H62 : h62 : H ;
+type.register H64 : h64 : H ;
+type.register H67 : h67 : H ;
+
+type.register S62 : s62 : ASM ;
+type.register S64 : s64 : ASM ;
+type.register S67 : s67 : ASM ;
+
+type.register O62 : o62 ;
+type.register O64 : o64 ;
+type.register O64P : o64P ;
+type.register O67 : o67 ;
+type.register O67P : o67P ;
+
+type.register A62 : a62 l62 ;
+type.register A64 : a64 l64 ;
+type.register A64P : a64p a64P l64p l64P ;
+type.register A67 : a67 l67 ;
+type.register A67P : a67p a67P l67p l67P ;
+
+type.set-generated-target-suffix EXE : <toolset>tms320c6000 : out ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c6000 : obj ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c6000 : lib ;
+
 rule init ( version ? : command * : options * )
 {
   # Check that the host operating system is supported.  If it is not,
@@ -107,30 +131,6 @@ rule init ( version ? : command * : options * )
     ECHO "tms320c6000: warning: unsupported operating system" os.name ;
   }
 }
-
-type.register H62 : h62 : H ;
-type.register H64 : h64 : H ;
-type.register H67 : h67 : H ;
-
-type.register S62 : s62 : ASM ;
-type.register S64 : s64 : ASM ;
-type.register S67 : s67 : ASM ;
-
-type.register O62 : o62 ;
-type.register O64 : o64 ;
-type.register O64P : o64P ;
-type.register O67 : o67 ;
-type.register O67P : o67P ;
-
-type.register A62 : a62 l62 ;
-type.register A64 : a64 l64 ;
-type.register A64P : a64p a64P l64p l64P ;
-type.register A67 : a67 l67 ;
-type.register A67P : a67p a67P l67p l67P ;
-
-type.set-generated-target-suffix EXE : <toolset>tms320c6000 : out ;
-type.set-generated-target-suffix OBJ : <toolset>tms320c6000 : obj ;
-type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c6000 : lib ;
 
 generators.register-linker tms320c6000.link : OBJ O62 A62 STATIC_LIB : EXE : <toolset>tms320c6000 <target-os>baremetal ;
 generators.register-linker tms320c6000.link : OBJ O62 O64 O64P A62 A64 STATIC_LIB : EXE : <toolset>tms320c6000 <architecture>tms320c6000 <instruction-set>tms320c6400 <target-os>baremetal ;

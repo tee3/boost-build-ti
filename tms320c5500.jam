@@ -37,6 +37,18 @@ feature.extend instruction-set :
   tms320c5510
   ;
 
+type.register H55 : h55 : H ;
+
+type.register S55 : s55 : ASM ;
+
+type.register O55 : o55 ;
+
+type.register A55 : a55 l55 ;
+
+type.set-generated-target-suffix EXE : <toolset>tms320c5500 : out ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c5500 : obj ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5500 : lib ;
+
 rule init ( version ? : command * : options * )
 {
   # Check that the host operating system is supported.  If it is not,
@@ -103,18 +115,6 @@ rule init ( version ? : command * : options * )
     ECHO "tms320c5500: warning: unsupported operating system" os.name ;
   }
 }
-
-type.register H55 : h55 : H ;
-
-type.register S55 : s55 : ASM ;
-
-type.register O55 : o55 ;
-
-type.register A55 : a55 l55 ;
-
-type.set-generated-target-suffix EXE : <toolset>tms320c5500 : out ;
-type.set-generated-target-suffix OBJ : <toolset>tms320c5500 : obj ;
-type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5500 : lib ;
 
 generators.register-linker tms320c5500.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5500 <target-os>baremetal ;
 #generators.register-linker tms320c5500.link : OBJ O55 A55 STATIC_LIB : EXE : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 <target-os>baremetal ;

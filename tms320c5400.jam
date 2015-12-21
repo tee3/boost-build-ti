@@ -44,6 +44,18 @@ feature.extend instruction-set :
   tms320c549
   ;
 
+type.register H54 : h54 : H ;
+
+type.register S54 : s54 : ASM ;
+
+type.register O54 : o54 ;
+
+type.register A54 : a54 l54 ;
+
+type.set-generated-target-suffix EXE : <toolset>tms320c5400 : out ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c5400 : obj ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5400 : lib ;
+
 local rule get-major-version ( version )
 {
   return [ regex.match "^([0-9]+)\..*$" : $(version) ] ;
@@ -137,18 +149,6 @@ rule init ( version ? : command * : options * )
     ECHO "tms320c5400: warning: unsupported operating system" os.name ;
   }
 }
-
-type.register H54 : h54 : H ;
-
-type.register S54 : s54 : ASM ;
-
-type.register O54 : o54 ;
-
-type.register A54 : a54 l54 ;
-
-type.set-generated-target-suffix EXE : <toolset>tms320c5400 : out ;
-type.set-generated-target-suffix OBJ : <toolset>tms320c5400 : obj ;
-type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c5400 : lib ;
 
 generators.register-linker tms320c5400.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5400 <target-os>baremetal ;
 #generators.register-linker tms320c5400.link : OBJ O54 A54 STATIC_LIB : EXE : <toolset>tms320c5400 <target-os>baremetal ;

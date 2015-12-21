@@ -36,6 +36,18 @@ feature.extend instruction-set :
   tms320c2800
   ;
 
+# type.register H28 : h28 : H ;
+
+# type.register S28 : s28 : ASM ;
+
+# type.register O28 : o28 ;
+
+# type.register A28 : a28 l28 ;
+
+type.set-generated-target-suffix EXE : <toolset>tms320c2000 : out ;
+type.set-generated-target-suffix OBJ : <toolset>tms320c2000 : obj ;
+type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c2000 : lib ;
+
 rule init ( version ? : command * : options * )
 {
   # Check that the host operating system is supported.  If it is not,
@@ -102,18 +114,6 @@ rule init ( version ? : command * : options * )
     ECHO "tms320c2000: warning: unsupported operating system" os.name ;
   }
 }
-
-# type.register H28 : h28 : H ;
-
-# type.register S28 : s28 : ASM ;
-
-# type.register O28 : o28 ;
-
-# type.register A28 : a28 l28 ;
-
-type.set-generated-target-suffix EXE : <toolset>tms320c2000 : out ;
-type.set-generated-target-suffix OBJ : <toolset>tms320c2000 : obj ;
-type.set-generated-target-suffix STATIC_LIB : <toolset>tms320c2000 : lib ;
 
 generators.register-linker tms320c2000.link : OBJ STATIC_LIB : EXE : <toolset>tms320c2000 <target-os>baremetal ;
 # generators.register-linker tms320c2000.link : OBJ O28 A28 STATIC_LIB : EXE : <toolset>tms320c2000 <architecture>tms320c2000 <instruction-set>tms320c2800 <target-os>baremetal ;

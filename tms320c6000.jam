@@ -27,6 +27,20 @@ if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
 
 feature.extend toolset : tms320c6000 ;
 
+feature.extend architecture :
+  tms320c6000
+  ;
+
+feature.extend instruction-set :
+  tms320c6000
+  tms320c6200
+  tms320c6400
+  tms320c64x+
+  tms320c6700
+  tms320c6713
+  tms320c67x+
+  ;
+
 rule init ( version ? : command * : options * )
 {
   # Check that the host operating system is supported.  If it is not,
@@ -229,22 +243,6 @@ actions hex
 {
   "$(.bin)/hex6x" -q $(OPTIONS) -o"$(<)" -map $(<:S=.hex.map) $(>)
 }
-
-# Support for additional architectures
-
-feature.extend architecture :
-  tms320c6000
-  ;
-
-feature.extend instruction-set :
-  tms320c6000
-  tms320c6200
-  tms320c6400
-  tms320c64x+
-  tms320c6700
-  tms320c6713
-  tms320c67x+
-  ;
 
 local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values + : default ? )
 {

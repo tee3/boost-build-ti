@@ -28,6 +28,22 @@ if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
 
 feature.extend toolset : tms320c5400 ;
 
+feature.extend architecture :
+  tms320c5400
+  ;
+
+feature.extend instruction-set :
+  tms320c5400
+  tms320c541
+  tms320c542
+  tms320c543
+  tms320c545
+  tms320c545lp
+  tms320c546lp
+  tms320c548
+  tms320c549
+  ;
+
 local rule get-major-version ( version )
 {
   return [ regex.match "^([0-9]+)\..*$" : $(version) ] ;
@@ -255,24 +271,6 @@ actions hex
 {
   "$(.bin)/hex500" -q $(OPTIONS) $(OFLAG)$(<) -map $(<[1]:S=.hex.map) $(>)
 }
-
-# Support for additional architectures
-
-feature.extend architecture :
-  tms320c5400
-  ;
-
-feature.extend instruction-set :
-  tms320c5400
-  tms320c541
-  tms320c542
-  tms320c543
-  tms320c545
-  tms320c545lp
-  tms320c546lp
-  tms320c548
-  tms320c549
-  ;
 
 local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values * : default ? )
 {

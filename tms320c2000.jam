@@ -27,6 +27,15 @@ if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
 
 feature.extend toolset : tms320c2000 ;
 
+feature.extend architecture :
+  tms320c2000
+  ;
+
+feature.extend instruction-set :
+  tms320c2000
+  tms320c2800
+  ;
+
 rule init ( version ? : command * : options * )
 {
   # Check that the host operating system is supported.  If it is not,
@@ -210,17 +219,6 @@ actions hex
 {
   "$(.bin)/hex2000" -q $(OPTIONS) -o"$(<)" -map $(<:S=.hex.map) $(>)
 }
-
-# Support for additional architectures
-
-feature.extend architecture :
-  tms320c2000
-  ;
-
-feature.extend instruction-set :
-  tms320c2000
-  tms320c2800
-  ;
 
 local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values + : default ? )
 {

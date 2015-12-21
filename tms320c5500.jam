@@ -115,76 +115,78 @@ rule init ( version ? : command * : options * )
 
     toolset.flags tms320c5500 .bin $(condition) : $(root)/bin ;
 
-    toolset.flags tms320c5500.compile STDHDRS $(condition) : $(root)/include ;
+    # Declare flags
 
+    toolset.flags tms320c5500.link OPTIONS <strip>off : ;
+    toolset.flags tms320c5500.link OPTIONS <strip>on : -s ;
+
+    toolset.flags tms320c5500.compile OPTIONS <debug-symbols>off : ;
+    toolset.flags tms320c5500.compile OPTIONS <debug-symbols>on : -g ;
+
+    toolset.flags tms320c5500.compile OPTIONS <optimization>off : ;
+    toolset.flags tms320c5500.compile OPTIONS <optimization>speed : -O3 ;
+    toolset.flags tms320c5500.compile OPTIONS <optimization>space : -ms=3 ;
+
+    # @todo fill in completely
+    # toolset.flags tms320c5500.compile OPTIONS <profiling>off : ;
+    # toolset.flags tms320c5500.compile OPTIONS <profiling>on : ;
+
+    toolset.flags tms320c5500.compile OPTIONS <inlining>off : -pi ;
+    toolset.flags tms320c5500.compile OPTIONS <inlining>on : ;
+    toolset.flags tms320c5500.compile OPTIONS <inlining>full : ;
+
+    toolset.flags tms320c5500.compile.c++ OPTIONS <rtti>off : ;
+    toolset.flags tms320c5500.compile.c++ OPTIONS <rtti>on : -rtti ;
+
+    toolset.flags tms320c5500.compile.c++ OPTIONS <exception-handling>off : ;
+    toolset.flags tms320c5500.compile.c++ OPTIONS <exception-handling>on : --exceptions ;
+
+    toolset.flags tms320c5500.compile OPTIONS <warnings>off : -pdw ;
+    toolset.flags tms320c5500.compile OPTIONS <warnings>all : ;
+
+    toolset.flags tms320c5500.compile OPTIONS <warnings-as-errors>off : ;
+    toolset.flags tms320c5500.compile OPTIONS <warnings-as-errors>on : -pdew ;
+
+    toolset.flags tms320c5500.link OPTIONS <linkflags> ;
+    toolset.flags tms320c5500.archive AROPTIONS <archiveflags> ;
+    toolset.flags tms320c5500.compile OPTIONS <compileflags> ;
+
+    toolset.flags tms320c5500.compile.c OPTIONS <cflags> ;
+    toolset.flags tms320c5500.compile.c++ OPTIONS <cxxflags> ;
+    toolset.flags tms320c5500.compile.asm OPTIONS <asmflags> ;
+    toolset.flags tms320c5500.compile STDHDRS $(condition) : $(root)/include ;
+    toolset.flags tms320c5500.compile DEFINES <define> ;
+    toolset.flags tms320c5500.compile UNDEFINES <undef> ;
+    toolset.flags tms320c5500.compile INCLUDES <include> ;
+
+    # @todo endianess left at default for now.
+    toolset.flags tms320c5500.link DEFAULTS : -qq ;
+    toolset.flags tms320c5500.compile.c DEFAULTS : -qq ;
+    toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
+    toolset.flags tms320c5500.compile.asm DEFAULTS : -qq ;
+
+    toolset.flags tms320c5500.link DEFINES <define> ;
+    toolset.flags tms320c5500.link UNDEFINES <undef> ;
     toolset.flags tms320c5500.link STDLIBPATH $(condition) : $(root)/lib ;
+    toolset.flags tms320c5500.link LIBRARY_PATH <library-path> ;
+    toolset.flags tms320c5500.link FINDLIBS_ST <find-static-library> ;
+    toolset.flags tms320c5500.link FINDLIBS_SA <find-shared-library> ;
+    toolset.flags tms320c5500.link LIBRARIES <library-file> ;
+    toolset.flags tms320c5500.link LIBRARY_PATH_OPTION  : -i : unchecked ;
+    toolset.flags tms320c5500.link LIBRARY_OPTION  : "" : unchecked ;
     toolset.flags tms320c5500.link RUN_PATH $(condition) : $(root)/bin ;
+
+    toolset.flags tms320c5500.hex OPTIONS <flags> ;
+
+    cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5500 : -v5500 : default ;
+    cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5509 : -v5509 ;
+    cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5510 : -v5510 ;
   }
   else
   {
     ECHO "tms320c5500: warning: unsupported operating system" os.name ;
   }
 }
-
-# Declare flags
-
-toolset.flags tms320c5500.link OPTIONS <strip>off : ;
-toolset.flags tms320c5500.link OPTIONS <strip>on : -s ;
-
-toolset.flags tms320c5500.compile OPTIONS <debug-symbols>off : ;
-toolset.flags tms320c5500.compile OPTIONS <debug-symbols>on : -g ;
-
-toolset.flags tms320c5500.compile OPTIONS <optimization>off : ;
-toolset.flags tms320c5500.compile OPTIONS <optimization>speed : -O3 ;
-toolset.flags tms320c5500.compile OPTIONS <optimization>space : -ms=3 ;
-
-# @todo fill in completely
-# toolset.flags tms320c5500.compile OPTIONS <profiling>off : ;
-# toolset.flags tms320c5500.compile OPTIONS <profiling>on : ;
-
-toolset.flags tms320c5500.compile OPTIONS <inlining>off : -pi ;
-toolset.flags tms320c5500.compile OPTIONS <inlining>on : ;
-toolset.flags tms320c5500.compile OPTIONS <inlining>full : ;
-
-toolset.flags tms320c5500.compile.c++ OPTIONS <rtti>off : ;
-toolset.flags tms320c5500.compile.c++ OPTIONS <rtti>on : -rtti ;
-
-toolset.flags tms320c5500.compile.c++ OPTIONS <exception-handling>off : ;
-toolset.flags tms320c5500.compile.c++ OPTIONS <exception-handling>on : --exceptions ;
-
-toolset.flags tms320c5500.compile OPTIONS <warnings>off : -pdw ;
-toolset.flags tms320c5500.compile OPTIONS <warnings>all : ;
-
-toolset.flags tms320c5500.compile OPTIONS <warnings-as-errors>off : ;
-toolset.flags tms320c5500.compile OPTIONS <warnings-as-errors>on : -pdew ;
-
-toolset.flags tms320c5500.link OPTIONS <linkflags> ;
-toolset.flags tms320c5500.archive AROPTIONS <archiveflags> ;
-toolset.flags tms320c5500.compile OPTIONS <compileflags> ;
-
-toolset.flags tms320c5500.compile.c OPTIONS <cflags> ;
-toolset.flags tms320c5500.compile.c++ OPTIONS <cxxflags> ;
-toolset.flags tms320c5500.compile.asm OPTIONS <asmflags> ;
-toolset.flags tms320c5500.compile DEFINES <define> ;
-toolset.flags tms320c5500.compile UNDEFINES <undef> ;
-toolset.flags tms320c5500.compile INCLUDES <include> ;
-
-# @todo endianess left at default for now.
-toolset.flags tms320c5500.link DEFAULTS : -qq ;
-toolset.flags tms320c5500.compile.c DEFAULTS : -qq ;
-toolset.flags tms320c5500.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
-toolset.flags tms320c5500.compile.asm DEFAULTS : -qq ;
-
-toolset.flags tms320c5500.link DEFINES <define> ;
-toolset.flags tms320c5500.link UNDEFINES <undef> ;
-toolset.flags tms320c5500.link LIBRARY_PATH <library-path> ;
-toolset.flags tms320c5500.link FINDLIBS_ST <find-static-library> ;
-toolset.flags tms320c5500.link FINDLIBS_SA <find-shared-library> ;
-toolset.flags tms320c5500.link LIBRARIES <library-file> ;
-toolset.flags tms320c5500.link LIBRARY_PATH_OPTION  : -i : unchecked ;
-toolset.flags tms320c5500.link LIBRARY_OPTION  : "" : unchecked ;
-
-toolset.flags tms320c5500.hex OPTIONS <flags> ;
 
 # @todo put all these options in a variable or a response file.
 actions compile.c
@@ -232,7 +234,3 @@ local rule cpu-flags ( toolset variable * : architecture : instruction-set + : v
   }
   toolset.flags $(toolset) $(variable) <architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
 }
-
-cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5500 : -v5500 : default ;
-cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5509 : -v5509 ;
-cpu-flags tms320c5500.compile OPTIONS : tms320c5500 : tms320c5510 : -v5510 ;

@@ -125,6 +125,17 @@ rule init ( version ? : command * : options * )
       ECHO "tms320c5400: using compiler" $(version) "at" $(root) ;
     }
 
+    generators.register-linker tms320c5400.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5400 <target-os>baremetal ;
+    #generators.register-linker tms320c5400.link : OBJ O54 A54 STATIC_LIB : EXE : <toolset>tms320c5400 <target-os>baremetal ;
+
+    generators.register-archiver tms320c5400.archive : OBJ : STATIC_LIB : <toolset>tms320c5400 <target-os>baremetal ;
+    #generators.register-archiver tms320c5400.archive : OBJ O54 : STATIC_LIB : <toolset>tms320c5400 <target-os>baremetal ;
+
+    # @todo not supported in < 4
+    generators.register-c-compiler tms320c5400.compile.c++ : CPP : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
+    generators.register-c-compiler tms320c5400.compile.c : C : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
+    generators.register-c-compiler tms320c5400.compile.asm : ASM : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
+
     if $(major-version) > 3
     {
       toolset.flags tms320c5400 .bin $(condition) : $(root)/bin ;
@@ -149,17 +160,6 @@ rule init ( version ? : command * : options * )
     ECHO "tms320c5400: warning: unsupported operating system" os.name ;
   }
 }
-
-generators.register-linker tms320c5400.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5400 <target-os>baremetal ;
-#generators.register-linker tms320c5400.link : OBJ O54 A54 STATIC_LIB : EXE : <toolset>tms320c5400 <target-os>baremetal ;
-
-generators.register-archiver tms320c5400.archive : OBJ : STATIC_LIB : <toolset>tms320c5400 <target-os>baremetal ;
-#generators.register-archiver tms320c5400.archive : OBJ O54 : STATIC_LIB : <toolset>tms320c5400 <target-os>baremetal ;
-
-# @todo not supported in < 4
-generators.register-c-compiler tms320c5400.compile.c++ : CPP : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
-generators.register-c-compiler tms320c5400.compile.c : C : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
-generators.register-c-compiler tms320c5400.compile.asm : ASM : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
 
 # Declare flags
 

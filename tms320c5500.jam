@@ -103,6 +103,16 @@ rule init ( version ? : command * : options * )
       ECHO "tms320c5500: using compiler" $(version) "at" $(root) ;
     }
 
+    generators.register-linker tms320c5500.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5500 <target-os>baremetal ;
+    #generators.register-linker tms320c5500.link : OBJ O55 A55 STATIC_LIB : EXE : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 <target-os>baremetal ;
+
+    generators.register-archiver tms320c5500.archive : OBJ : STATIC_LIB : <toolset>tms320c5500 <target-os>baremetal ;
+    #generators.register-archiver tms320c5500.archive : OBJ O55 : STATIC_LIB : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 <target-os>baremetal ;
+
+    generators.register-c-compiler tms320c5500.compile.c++ : CPP : OBJ : <toolset>tms320c5500 <target-os>baremetal ;
+    generators.register-c-compiler tms320c5500.compile.c : C : OBJ : <toolset>tms320c5500 <target-os>baremetal ;
+    generators.register-c-compiler tms320c5500.compile.asm : ASM : OBJ : <toolset>tms320c5500 <target-os>baremetal ;
+
     toolset.flags tms320c5500 .bin $(condition) : $(root)/bin ;
 
     toolset.flags tms320c5500.compile STDHDRS $(condition) : $(root)/include ;
@@ -115,16 +125,6 @@ rule init ( version ? : command * : options * )
     ECHO "tms320c5500: warning: unsupported operating system" os.name ;
   }
 }
-
-generators.register-linker tms320c5500.link : OBJ STATIC_LIB : EXE : <toolset>tms320c5500 <target-os>baremetal ;
-#generators.register-linker tms320c5500.link : OBJ O55 A55 STATIC_LIB : EXE : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 <target-os>baremetal ;
-
-generators.register-archiver tms320c5500.archive : OBJ : STATIC_LIB : <toolset>tms320c5500 <target-os>baremetal ;
-#generators.register-archiver tms320c5500.archive : OBJ O55 : STATIC_LIB : <toolset>tms320c5500 <architecture>tms320c5500 <instruction-set>tms320c5500 <target-os>baremetal ;
-
-generators.register-c-compiler tms320c5500.compile.c++ : CPP : OBJ : <toolset>tms320c5500 <target-os>baremetal ;
-generators.register-c-compiler tms320c5500.compile.c : C : OBJ : <toolset>tms320c5500 <target-os>baremetal ;
-generators.register-c-compiler tms320c5500.compile.asm : ASM : OBJ : <toolset>tms320c5500 <target-os>baremetal ;
 
 # Declare flags
 

@@ -102,13 +102,8 @@ rule init ( version ? : command * : options * )
 
     local major-version = [ get-major-version $(version) ] ;
 
-    if $(major-version) < 4
-    {
-      errors.user-error "tms320c5400: detected version" $(version) " is not supported (< 4)." ;
-    }
-
     root = [ common.get-absolute-tool-path $(command[-1]) ] ;
-    if $(major-version) > 3
+    if $(major-version) >= 4
     {
       root = $(root:P) ;
     }
@@ -131,12 +126,14 @@ rule init ( version ? : command * : options * )
     generators.register-archiver tms320c5400.archive : OBJ : STATIC_LIB : <toolset>tms320c5400 <target-os>baremetal ;
     #generators.register-archiver tms320c5400.archive : OBJ O54 : STATIC_LIB : <toolset>tms320c5400 <target-os>baremetal ;
 
-    # @todo not supported in < 4
-    generators.register-c-compiler tms320c5400.compile.c++ : CPP : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
+    if $(major-version) >= 4
+    {
+      generators.register-c-compiler tms320c5400.compile.c++ : CPP : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
+    }
     generators.register-c-compiler tms320c5400.compile.c : C : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
     generators.register-c-compiler tms320c5400.compile.asm : ASM : OBJ : <toolset>tms320c5400 <target-os>baremetal ;
 
-    if $(major-version) > 3
+    if $(major-version) >= 4
     {
       toolset.flags tms320c5400 .bin $(condition) : $(root)/bin ;
     }
@@ -154,34 +151,49 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c5400.compile OPTIONS <debug-symbols>on : -g ;
 
     toolset.flags tms320c5400.compile OPTIONS <optimization>off : ;
-    # @todo not supported in < 4
-    #toolset.flags tms320c5400.compile OPTIONS <optimization>speed : -o3 ;
-    #toolset.flags tms320c5400.compile OPTIONS <optimization>space : -ms ;
-    toolset.flags tms320c5400.compile OPTIONS <optimization>speed : -O3 ;
-    toolset.flags tms320c5400.compile OPTIONS <optimization>space : -ms=3 ;
+    if $(major-version) < 4
+    {
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>speed : -o3 ;
+    }
+    else
+    {
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>speed : -O3 ;
+    }
+    toolset.flags tms320c5400.compile OPTIONS <optimization>space : -ms ;
 
     # @todo fill in completely
     # toolset.flags tms320c5400.compile OPTIONS <profiling>off : ;
     # toolset.flags tms320c5400.compile OPTIONS <profiling>on : ;
 
-    # @todo not supported in < 4
-    #toolset.flags tms320c5400.compile OPTIONS <inlining>off : -x0 ;
-    #toolset.flags tms320c5400.compile OPTIONS <inlining>on : -x1 ;
-    #toolset.flags tms320c5400.compile OPTIONS <inlining>full : -x2 ;
-    toolset.flags tms320c5400.compile OPTIONS <inlining>off : -pi ;
-    toolset.flags tms320c5400.compile OPTIONS <inlining>on : ;
-    toolset.flags tms320c5400.compile OPTIONS <inlining>full : ;
+    if $(major-version) < 4
+    {
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>off : -x0 ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>on : -x1 ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>full : -x2 ;
+    }
+    else
+    {
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>off : -pi ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>on : ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>full : ;
+    }
 
-    # @todo not supported in < 4
-    toolset.flags tms320c5400.compile.c++ OPTIONS <rtti>off : ;
-    toolset.flags tms320c5400.compile.c++ OPTIONS <rtti>on : -rtti ;
+    if $(major-version) >= 4
+    {
+      toolset.flags tms320c5400.compile.c++ OPTIONS $(condition)/<rtti>off : ;
+      toolset.flags tms320c5400.compile.c++ OPTIONS $(condition)/<rtti>on : -rtti ;
+    }
 
-    # @todo not supported in < 4
-    toolset.flags tms320c5400.compile.c++ OPTIONS <exception-handling>off : ;
-    toolset.flags tms320c5400.compile.c++ OPTIONS <exception-handling>on : --exceptions ;
+    if $(major-version) >= 4
+    {
+      toolset.flags tms320c5400.compile.c++ OPTIONS $(condition)/<exception-handling>off : ;
+      toolset.flags tms320c5400.compile.c++ OPTIONS $(condition)/<exception-handling>on : --exceptions ;
+    }
 
-    # @todo not supported in < 4
-    toolset.flags tms320c5400.compile OPTIONS <warnings>off : -pdw ;
+    if $(major-version) >= 4
+    {
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<warnings>off : -pdw ;
+    }
     toolset.flags tms320c5400.compile OPTIONS <warnings>all : ;
 
     toolset.flags tms320c5400.compile OPTIONS <warnings-as-errors>off : ;
@@ -193,11 +205,13 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c5400.compile OPTIONS <compileflags> ;
 
     toolset.flags tms320c5400.compile.c OPTIONS <cflags> ;
-    # @todo not supported in < 4
-    toolset.flags tms320c5400.compile.c++ OPTIONS <cxxflags> ;
+    if $(major-version) >= 4
+    {
+      toolset.flags tms320c5400.compile.c++ OPTIONS <cxxflags> ;
+    }
     toolset.flags tms320c5400.compile.asm OPTIONS <asmflags> ;
 
-    if $(major-version) > 3
+    if $(major-version) >= 4
     {
       toolset.flags tms320c5400.compile STDHDRS $(condition) : $(root)/include ;
     }
@@ -212,14 +226,15 @@ rule init ( version ? : command * : options * )
     # @todo endianess left at default for now.
     toolset.flags tms320c5400.link DEFAULTS : -qq ;
     toolset.flags tms320c5400.compile.c DEFAULTS : -qq ;
-    # @todo not supported in < 4
-    #toolset.flags tms320c5400.compile.c++ DEFAULTS : -qq ;
-    toolset.flags tms320c5400.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
+    if $(major-version) >= 4
+    {
+      toolset.flags tms320c5400.compile.c++ DEFAULTS $(condition) : -qq --static_template_instantiation ;
+    }
     toolset.flags tms320c5400.compile.asm DEFAULTS : -qq ;
 
     toolset.flags tms320c5400.link DEFINES <define> ;
     toolset.flags tms320c5400.link UNDEFINES <undef> ;
-    if $(major-version) > 3
+    if $(major-version) >= 4
     {
       toolset.flags tms320c5400.link STDLIBPATH $(condition) : $(root)/lib ;
     }
@@ -233,7 +248,7 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c5400.link LIBRARIES <library-file> ;
     toolset.flags tms320c5400.link LIBRARY_PATH_OPTION  : -i : unchecked ;
     toolset.flags tms320c5400.link LIBRARY_OPTION  : "" : unchecked ;
-    if $(major-version) > 3
+    if $(major-version) >= 4
     {
       toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root)/bin ;
     }
@@ -266,22 +281,110 @@ rule init ( version ? : command * : options * )
 }
 
 # @todo put all these options in a variable or a response file.
-actions compile.c
+rule compile.c ( target : sources + : properties * )
+{
+  local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
+  local major-version = [ get-major-version $(version) ] ;
+
+  if $(major-version) < 4
+  {
+    compile.c.3 $(target) : $(sources) : $(properties) ;
+  }
+  else
+  {
+    compile.c.4 $(target) : $(sources) : $(properties) ;
+  }
+}
+
+actions compile.c.3
+{
+  set C_DIR=$(.bin);
+  set A_DIR=$(.bin);
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -d"$(DEFINES)" -u"$(UNDEFINES)" -i"$(STDHDRS:W)" -i"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+}
+
+actions compile.c.4
 {
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ec "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -U"$(UNDEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
 }
 
-actions compile.c++
+rule compile.c++ ( target : sources + : properties * )
+{
+  local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
+  local major-version = [ get-major-version $(version) ] ;
+
+  if $(major-version) < 4
+  {
+    compile.c++.3 $(target) : $(sources) : $(properties) ;
+  }
+  else
+  {
+    compile.c++.4 $(target) : $(sources) : $(properties) ;
+  }
+}
+
+actions compile.c++.3
+{
+  set C_DIR=$(.bin);
+  set A_DIR=$(.bin);
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -d"$(DEFINES)" -u"$(UNDEFINES)" -i"$(STDHDRS:W)" -i"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+}
+
+actions compile.c++.4
 {
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ep "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -U"$(UNDEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
 }
 
-actions compile.asm
+rule compile.asm ( target : sources + : properties * )
+{
+  local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
+  local major-version = [ get-major-version $(version) ] ;
+
+  if $(major-version) < 4
+  {
+    compile.asm.3 $(target) : $(sources) : $(properties) ;
+  }
+  else
+  {
+    compile.asm.4 $(target) : $(sources) : $(properties) ;
+  }
+}
+
+actions compile.asm.3
+{
+  set C_DIR=$(.bin);
+  set A_DIR=$(.bin);
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -ad"$(DEFINES)" -au"$(UNDEFINES)" -i"$(STDHDRS:W)" -i"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+}
+
+actions compile.asm.4
 {
   "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -ea "$(>:S)" -c $(OPTIONS) -D"$(DEFINES)" -U"$(UNDEFINES)" -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
 }
 
-actions link
+rule link ( target : sources + : properties * )
+{
+  local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
+  local major-version = [ get-major-version $(version) ] ;
+
+  if $(major-version) < 4
+  {
+    link.3 $(target) : $(sources) : $(properties) ;
+  }
+  else
+  {
+    link.4 $(target) : $(sources) : $(properties) ;
+  }
+}
+
+actions link.3
+{
+  set C_DIR=$(.bin);
+  set A_DIR=$(.bin);
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -d"$(DEFINES)" -u"$(UNDEFINES)" -z -w $(OPTIONS) -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
+}
+
+actions link.4
 {
   "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define="$(DEFINES)" --undefine="$(UNDEFINES)" -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
 }

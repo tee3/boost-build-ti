@@ -257,9 +257,15 @@ rule init ( version ? : command * : options * )
       toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root) ;
     }
 
-    # @todo not supported in < 4
-    #toolset.flags tms320c5400.link STDLIBRARIES <exception-handling>off : rts500.lib ;
-    #toolset.flags tms320c5400.link STDLIBRARIES <exception-handling>on : rts500_eh.lib ;
+    if $(major-version) < 4
+    {
+      toolset.flags tms320c5400.link STDLIBRARIES $(condition) : rts.lib ;
+      #toolset.flags tms320c5400.link STDLIBRARIES $(condition) : rts_ext.lib ;
+    }
+    else
+    {
+      toolset.flags tms320c5400.link STDLIBRARIES $(condition) : libc.a ;
+    }
 
     toolset.flags tms320c5400.hex OPTIONS <flags> ;
     toolset.flags tms320c5400.hex OFLAG : "-o " ;
@@ -300,7 +306,7 @@ actions compile.c.3
 {
   set C_DIR=$(.bin);
   set A_DIR=$(.bin);
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -d"$(DEFINES)" -u"$(UNDEFINES)" -i"$(STDHDRS:W)" -i"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -d"$(DEFINES)" -u"$(UNDEFINES)" -i$(STDHDRS:W) -i$(INCLUDES:W) -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
 }
 
 actions compile.c.4
@@ -327,7 +333,7 @@ actions compile.c++.3
 {
   set C_DIR=$(.bin);
   set A_DIR=$(.bin);
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -d"$(DEFINES)" -u"$(UNDEFINES)" -i"$(STDHDRS:W)" -i"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -d"$(DEFINES)" -u"$(UNDEFINES)" -i$(STDHDRS:W) -i$(INCLUDES:W) -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
 }
 
 actions compile.c++.4
@@ -354,7 +360,7 @@ actions compile.asm.3
 {
   set C_DIR=$(.bin);
   set A_DIR=$(.bin);
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -ad"$(DEFINES)" -au"$(UNDEFINES)" -i"$(STDHDRS:W)" -i"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo "$(<:S)" -c $(OPTIONS) -ad"$(DEFINES)" -au"$(UNDEFINES)" -i$(STDHDRS:W) -i$(INCLUDES:W) -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" "$(>:W)"
 }
 
 actions compile.asm.4
@@ -381,7 +387,7 @@ actions link.3
 {
   set C_DIR=$(.bin);
   set A_DIR=$(.bin);
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -d"$(DEFINES)" -u"$(UNDEFINES)" -z -w $(OPTIONS) -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -d"$(DEFINES)" -u"$(UNDEFINES)" -z -w $(OPTIONS) -i$(LIBRARY_PATH:W) -i$(STDLIBPATH:W) -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l$(LIBRARIES:W) -l$(STDLIBRARIES:W)
 }
 
 actions link.4

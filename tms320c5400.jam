@@ -376,12 +376,12 @@ rule link ( target : sources + : properties * )
 
 actions link.3
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -d$(DEFINES) -u$(UNDEFINES) -z -w $(OPTIONS) -i$(LIBRARY_PATH:W) -i$(STDLIBPATH:W) -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l$(LIBRARIES:W) -l$(STDLIBRARIES:W)
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -d$(DEFINES) -u$(UNDEFINES) -z -w $(OPTIONS) $(LIBRARY_PATH_OPTION)$(LIBRARY_PATH:W) $(LIBRARY_PATH_OPTION)$(STDLIBPATH:W) -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l$(LIBRARIES:W) -l$(STDLIBRARIES:W)
 }
 
 actions link.4
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define=$(DEFINES) --undefine=$(UNDEFINES) -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define=$(DEFINES) --undefine=$(UNDEFINES) $(LIBRARY_PATH_OPTION)"$(LIBRARY_PATH:W)" $(LIBRARY_PATH_OPTION)"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
 }
 
 RM = [ common.rm-command ] ;

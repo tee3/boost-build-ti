@@ -233,7 +233,7 @@ actions compile.asm
 
 actions link
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define=$(DEFINES) --undefine=$(UNDEFINES) -i"$(LIBRARY_PATH:W)" -i"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define=$(DEFINES) --undefine=$(UNDEFINES) $(LIBRARY_PATH_OPTION)"$(LIBRARY_PATH:W)" $(LIBRARY_PATH_OPTION)"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" -l"$(LIBRARIES:W)" -l"$(STDLIBRARIES:W)"
 }
 
 RM = [ common.rm-command ] ;

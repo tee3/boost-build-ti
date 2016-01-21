@@ -243,8 +243,16 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c5400.link FINDLIBS_ST $(condition) : <find-static-library> ;
     toolset.flags tms320c5400.link FINDLIBS_SA $(condition) : <find-shared-library> ;
     toolset.flags tms320c5400.link LIBRARIES $(condition) : <library-file> ;
-    toolset.flags tms320c5400.link LIBRARY_PATH_OPTION $(condition) : -i : unchecked ;
-    toolset.flags tms320c5400.link LIBRARY_OPTION $(condition) : -l : unchecked ;
+    if $(major-version) >= 4
+    {
+      toolset.flags tms320c5400.link LIBRARY_PATH_OPTION $(condition) : -i : unchecked ;
+      toolset.flags tms320c5400.link LIBRARY_OPTION $(condition) : -l : unchecked ;
+    }
+    else
+    {
+      toolset.flags tms320c5400.link LIBRARY_PATH_OPTION $(condition) : "-i " : unchecked ;
+      toolset.flags tms320c5400.link LIBRARY_OPTION $(condition) : "-l " : unchecked ;
+    }
     if $(major-version) >= 4
     {
       toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root)/bin ;

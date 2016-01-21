@@ -177,6 +177,7 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c5500.link RUN_PATH $(condition) : $(root)/bin ;
 
     toolset.flags tms320c5500.hex OPTIONS $(condition) : <flags> ;
+    toolset.flags tms320c5500.hex OFLAG $(condition) : -o ;
 
     cpu-flags tms320c5500.compile OPTIONS : $(condition) : tms320c5500 : tms320c5500 : -v5500 : default ;
     cpu-flags tms320c5500.compile OPTIONS : $(condition) : tms320c5500 : tms320c5509 : -v5509 ;
@@ -220,7 +221,7 @@ actions together piecemeal archive
 # @todo Hex should become a top-level target type
 actions hex
 {
-  "$(.bin)/hex55" -q $(OPTIONS) -o"$(<)" -map "$(<:S=.hex.map)" "$(>)"
+  "$(.bin)/hex55" -q $(OPTIONS) $(OFLAG)"$(<)" -map "$(<:S=.hex.map)" "$(>)"
 }
 
 local rule cpu-flags ( toolset variable : condition ? : architecture : instruction-set + : values * : default ? )

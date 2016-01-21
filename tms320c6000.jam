@@ -182,6 +182,11 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c6000.compile UNDEFINES $(condition) : <undef> ;
     toolset.flags tms320c6000.compile INCLUDES $(condition) : <include> ;
 
+    toolset.flags tms320c6000.compile DEFINE_OPTION $(condition) : -D : unchecked ;
+    toolset.flags tms320c6000.compile UNDEFINE_OPTION $(condition) : -U : unchecked ;
+    toolset.flags tms320c6000.compile INCLUDE_PATH_OPTION $(condition) : -I : unchecked ;
+    toolset.flags tms320c6000.compile SYSTEM_INCLUDE_PATH_OPTION $(condition) : -I : unchecked ;
+
     # @todo endianess left at default for now.
     toolset.flags tms320c6000.link DEFAULTS $(condition) : -qq ;
     toolset.flags tms320c6000.compile.c DEFAULTS $(condition) : -qq ;
@@ -190,6 +195,8 @@ rule init ( version ? : command * : options * )
 
     toolset.flags tms320c6000.link DEFINES $(condition) : <define> ;
     toolset.flags tms320c6000.link UNDEFINES $(condition) : <undef> ;
+    toolset.flags tms320c6000.link DEFINE_OPTION $(condition) : --define= : unchecked ;
+    toolset.flags tms320c6000.link UNDEFINE_OPTION $(condition) : --undefine= : unchecked ;
     toolset.flags tms320c6000.link STDLIBPATH $(condition) : $(root)/lib ;
     toolset.flags tms320c6000.link LIBRARY_PATH $(condition) : <library-path> ;
     toolset.flags tms320c6000.link FINDLIBS_ST $(condition) : <find-static-library> ;
@@ -219,22 +226,22 @@ rule init ( version ? : command * : options * )
 # @todo put all these options in a variable or a response file.
 actions compile.c
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ec $(>:S) -c $(OPTIONS) -D$(DEFINES) -U$(UNDEFINES) -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ec $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
 }
 
 actions compile.c++
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ep $(>:S) -c $(OPTIONS) -D$(DEFINES) -U$(UNDEFINES) -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ep $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
 }
 
 actions compile.asm
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ea $(>:S) -c $(OPTIONS) -D$(DEFINES) -U$(UNDEFINES) -I"$(STDHDRS:W)" -I"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -eo $(<:S) -ea $(>:S) -c $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(SYSTEM_INCLUDE_PATH_OPTION)"$(STDHDRS:W)" $(INCLUDE_PATH_OPTION)"$(INCLUDES:W)" -fr "$(<:DW)" -fs "$(<:DW)" -ft "$(<:DW)" --pp_directory "$(<:DW)" "$(>:W)"
 }
 
 actions link
 {
-  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) --define=$(DEFINES) --undefine=$(UNDEFINES) $(LIBRARY_PATH_OPTION)"$(LIBRARY_PATH:W)" $(LIBRARY_PATH_OPTION)"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" $(LIBRARY_OPTION)"$(LIBRARIES:W)" $(LIBRARY_OPTION)"$(STDLIBRARIES:W)"
+  "$(CONFIG_COMMAND)" $(DEFAULTS) -z -w $(OPTIONS) $(DEFINE_OPTION)$(DEFINES) $(UNDEFINE_OPTION)$(UNDEFINES) $(LIBRARY_PATH_OPTION)"$(LIBRARY_PATH:W)" $(LIBRARY_PATH_OPTION)"$(STDLIBPATH:W)" -o "$(<:W)" -m "$(<:S=.map)" "$(>:W)" $(LIBRARY_OPTION)"$(LIBRARIES:W)" $(LIBRARY_OPTION)"$(STDLIBRARIES:W)"
 }
 
 RM = [ common.rm-command ] ;

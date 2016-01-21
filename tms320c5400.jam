@@ -406,7 +406,7 @@ actions hex
   "$(.bin)/hex500" -q $(OPTIONS) $(OFLAG)$(<) -map $(<[1]:S=.hex.map) $(>)
 }
 
-local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values * : default ? )
+local rule cpu-flags ( toolset variable : architecture : instruction-set + : values * : default ? )
 {
   if $(default)
   {

@@ -250,7 +250,7 @@ actions hex
   "$(.bin)/hex6x" -q $(OPTIONS) -o"$(<)" -map $(<:S=.hex.map) $(>)
 }
 
-local rule cpu-flags ( toolset variable * : architecture : instruction-set + : values + : default ? )
+local rule cpu-flags ( toolset variable : architecture : instruction-set + : values * : default ? )
 {
   if $(default)
   {

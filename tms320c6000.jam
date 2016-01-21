@@ -140,74 +140,74 @@ rule init ( version ? : command * : options * )
 
     # Declare flags
 
-    toolset.flags tms320c6000.link OPTIONS <strip>off : ;
-    toolset.flags tms320c6000.link OPTIONS <strip>on : -s ;
+    toolset.flags tms320c6000.link OPTIONS $(condition)/<strip>off : ;
+    toolset.flags tms320c6000.link OPTIONS $(condition)/<strip>on : -s ;
 
-    toolset.flags tms320c6000.compile OPTIONS <debug-symbols>off : ;
-    toolset.flags tms320c6000.compile OPTIONS <debug-symbols>on : -g ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<debug-symbols>off : ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<debug-symbols>on : -g ;
 
-    toolset.flags tms320c6000.compile OPTIONS <optimization>off : ;
-    toolset.flags tms320c6000.compile OPTIONS <optimization>speed : -O3 ;
-    toolset.flags tms320c6000.compile OPTIONS <optimization>space : -ms=3 ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<optimization>off : ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<optimization>speed : -O3 ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<optimization>space : -ms=3 ;
 
     # @todo fill in completely
-    # toolset.flags tms320c6000.compile OPTIONS <profiling>off : ;
-    # toolset.flags tms320c6000.compile OPTIONS <profiling>on : ;
+    # toolset.flags tms320c6000.compile OPTIONS $(condition)/<profiling>off : ;
+    # toolset.flags tms320c6000.compile OPTIONS $(condition)/<profiling>on : ;
 
-    toolset.flags tms320c6000.compile OPTIONS <inlining>off : -pi ;
-    toolset.flags tms320c6000.compile OPTIONS <inlining>on : ;
-    toolset.flags tms320c6000.compile OPTIONS <inlining>full : ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<inlining>off : -pi ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<inlining>on : ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<inlining>full : ;
 
-    toolset.flags tms320c6000.compile.c++ OPTIONS <rtti>off : ;
-    toolset.flags tms320c6000.compile.c++ OPTIONS <rtti>on : -rtti ;
+    toolset.flags tms320c6000.compile.c++ OPTIONS $(condition)/<rtti>off : ;
+    toolset.flags tms320c6000.compile.c++ OPTIONS $(condition)/<rtti>on : -rtti ;
 
-    toolset.flags tms320c6000.compile.c++ OPTIONS <exception-handling>off : ;
-    toolset.flags tms320c6000.compile.c++ OPTIONS <exception-handling>on : --exceptions ;
+    toolset.flags tms320c6000.compile.c++ OPTIONS $(condition)/<exception-handling>off : ;
+    toolset.flags tms320c6000.compile.c++ OPTIONS $(condition)/<exception-handling>on : --exceptions ;
 
-    toolset.flags tms320c6000.compile OPTIONS <warnings>off : -pdw ;
-    toolset.flags tms320c6000.compile OPTIONS <warnings>all : ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<warnings>off : -pdw ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<warnings>all : ;
 
-    toolset.flags tms320c6000.compile OPTIONS <warnings-as-errors>off : ;
-    toolset.flags tms320c6000.compile OPTIONS <warnings-as-errors>on : -pdew ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<warnings-as-errors>off : ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition)/<warnings-as-errors>on : -pdew ;
 
-    toolset.flags tms320c6000.link OPTIONS <linkflags> ;
-    toolset.flags tms320c6000.archive AROPTIONS <archiveflags> ;
-    toolset.flags tms320c6000.compile OPTIONS <compileflags> ;
+    toolset.flags tms320c6000.link OPTIONS $(condition) : <linkflags> ;
+    toolset.flags tms320c6000.archive AROPTIONS $(condition) : <archiveflags> ;
+    toolset.flags tms320c6000.compile OPTIONS $(condition) : <compileflags> ;
 
-    toolset.flags tms320c6000.compile.c OPTIONS <cflags> ;
-    toolset.flags tms320c6000.compile.c++ OPTIONS <cxxflags> ;
-    toolset.flags tms320c6000.compile.asm OPTIONS <asmflags> ;
+    toolset.flags tms320c6000.compile.c OPTIONS $(condition) : <cflags> ;
+    toolset.flags tms320c6000.compile.c++ OPTIONS $(condition) : <cxxflags> ;
+    toolset.flags tms320c6000.compile.asm OPTIONS $(condition) : <asmflags> ;
     toolset.flags tms320c6000.compile STDHDRS $(condition) : $(root)/include ;
-    toolset.flags tms320c6000.compile DEFINES <define> ;
-    toolset.flags tms320c6000.compile UNDEFINES <undef> ;
-    toolset.flags tms320c6000.compile INCLUDES <include> ;
+    toolset.flags tms320c6000.compile DEFINES $(condition) : <define> ;
+    toolset.flags tms320c6000.compile UNDEFINES $(condition) : <undef> ;
+    toolset.flags tms320c6000.compile INCLUDES $(condition) : <include> ;
 
     # @todo endianess left at default for now.
-    toolset.flags tms320c6000.link DEFAULTS : -qq ;
-    toolset.flags tms320c6000.compile.c DEFAULTS : -qq ;
-    toolset.flags tms320c6000.compile.c++ DEFAULTS : -qq --static_template_instantiation ;
-    toolset.flags tms320c6000.compile.asm DEFAULTS : -qq ;
+    toolset.flags tms320c6000.link DEFAULTS $(condition) : -qq ;
+    toolset.flags tms320c6000.compile.c DEFAULTS $(condition) : -qq ;
+    toolset.flags tms320c6000.compile.c++ DEFAULTS $(condition) : -qq --static_template_instantiation ;
+    toolset.flags tms320c6000.compile.asm DEFAULTS $(condition) : -qq ;
 
-    toolset.flags tms320c6000.link DEFINES <define> ;
-    toolset.flags tms320c6000.link UNDEFINES <undef> ;
+    toolset.flags tms320c6000.link DEFINES $(condition) : <define> ;
+    toolset.flags tms320c6000.link UNDEFINES $(condition) : <undef> ;
     toolset.flags tms320c6000.link STDLIBPATH $(condition) : $(root)/lib ;
-    toolset.flags tms320c6000.link LIBRARY_PATH <library-path> ;
-    toolset.flags tms320c6000.link FINDLIBS_ST <find-static-library> ;
-    toolset.flags tms320c6000.link FINDLIBS_SA <find-shared-library> ;
-    toolset.flags tms320c6000.link LIBRARIES <library-file> ;
-    toolset.flags tms320c6000.link LIBRARY_PATH_OPTION : -i : unchecked ;
-    toolset.flags tms320c6000.link LIBRARY_OPTION : "" : unchecked ;
+    toolset.flags tms320c6000.link LIBRARY_PATH $(condition) : <library-path> ;
+    toolset.flags tms320c6000.link FINDLIBS_ST $(condition) : <find-static-library> ;
+    toolset.flags tms320c6000.link FINDLIBS_SA $(condition) : <find-shared-library> ;
+    toolset.flags tms320c6000.link LIBRARIES $(condition) : <library-file> ;
+    toolset.flags tms320c6000.link LIBRARY_PATH_OPTION $(condition) : -i : unchecked ;
+    toolset.flags tms320c6000.link LIBRARY_OPTION $(condition) : "" : unchecked ;
     toolset.flags tms320c6000.link RUN_PATH $(condition) : $(root)/bin ;
 
-    toolset.flags tms320c6000.hex OPTIONS <flags> ;
+    toolset.flags tms320c6000.hex OPTIONS $(condition) : <flags> ;
 
-    cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6000 : -mv6200  : default ;
-    cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6200 : -mv6200  ;
-    cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6400 : -mv6400  ;
-    cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c64x+ : -mv6400+ ;
-    cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6700 : -mv6700  ;
-    cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c6713 : -mv6713  ;
-    cpu-flags tms320c6000.compile OPTIONS : tms320c6000 : tms320c67x+ : -mv6700+ ;
+    cpu-flags tms320c6000.compile OPTIONS : $(condition) : tms320c6000 : tms320c6000 : -mv6200  : default ;
+    cpu-flags tms320c6000.compile OPTIONS : $(condition) : tms320c6000 : tms320c6200 : -mv6200  ;
+    cpu-flags tms320c6000.compile OPTIONS : $(condition) : tms320c6000 : tms320c6400 : -mv6400  ;
+    cpu-flags tms320c6000.compile OPTIONS : $(condition) : tms320c6000 : tms320c64x+ : -mv6400+ ;
+    cpu-flags tms320c6000.compile OPTIONS : $(condition) : tms320c6000 : tms320c6700 : -mv6700  ;
+    cpu-flags tms320c6000.compile OPTIONS : $(condition) : tms320c6000 : tms320c6713 : -mv6713  ;
+    cpu-flags tms320c6000.compile OPTIONS : $(condition) : tms320c6000 : tms320c67x+ : -mv6700+ ;
   }
   else
   {
@@ -250,14 +250,28 @@ actions hex
   "$(.bin)/hex6x" -q $(OPTIONS) -o"$(<)" -map $(<:S=.hex.map) $(>)
 }
 
-local rule cpu-flags ( toolset variable : architecture : instruction-set + : values * : default ? )
+local rule cpu-flags ( toolset variable : condition ? : architecture : instruction-set + : values * : default ? )
 {
-  if $(default)
+  if $(condition)
   {
-    # architecture and instruction-set are not set
-    toolset.flags $(toolset) $(variable) <architecture>/<instruction-set> : $(values) ;
-    # instruction-set is not set
-    toolset.flags $(toolset) $(variable) <architecture>$(architecture)/<instruction-set> : $(values) ;
+    if $(default)
+    {
+      # architecture and instruction-set are not set
+      toolset.flags $(toolset) $(variable) $(condition)/<architecture>/<instruction-set> : $(values) ;
+      # instruction-set is not set
+      toolset.flags $(toolset) $(variable) $(condition)/<architecture>$(architecture)/<instruction-set> : $(values) ;
+    }
+    toolset.flags $(toolset) $(variable) $(condition)/<architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
   }
-  toolset.flags $(toolset) $(variable) <architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
+  else
+  {
+    if $(default)
+    {
+      # architecture and instruction-set are not set
+      toolset.flags $(toolset) $(variable) <architecture>/<instruction-set> : $(values) ;
+      # instruction-set is not set
+      toolset.flags $(toolset) $(variable) <architecture>$(architecture)/<instruction-set> : $(values) ;
+    }
+    toolset.flags $(toolset) $(variable) <architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
+  }
 }

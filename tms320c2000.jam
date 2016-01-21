@@ -124,7 +124,7 @@ rule init ( version ? : command * : options * )
 
     toolset.flags tms320c2000.compile OPTIONS $(condition)/<optimization>off : ;
     toolset.flags tms320c2000.compile OPTIONS $(condition)/<optimization>speed : -O3 ;
-    toolset.flags tms320c2000.compile OPTIONS $(condition)/<optimization>space : -ms=3 ;
+    toolset.flags tms320c2000.compile OPTIONS $(condition)/<optimization>space : -ms ;
 
     # @todo fill in completely
     # toolset.flags tms320c2000.compile OPTIONS $(condition)/<profiling>off : ;

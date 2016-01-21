@@ -247,7 +247,7 @@ actions together piecemeal archive
 # @todo Hex should become a top-level target type
 actions hex
 {
-  "$(.bin)/hex6x" -q $(OPTIONS) -o"$(<)" -map $(<:S=.hex.map) $(>)
+  "$(.bin)/hex6x" -q $(OPTIONS) -o"$(<)" -map "$(<:S=.hex.map)" "$(>)"
 }
 
 local rule cpu-flags ( toolset variable : condition ? : architecture : instruction-set + : values * : default ? )

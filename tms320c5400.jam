@@ -227,6 +227,10 @@ rule init ( version ? : command * : options * )
     {
       toolset.flags tms320c5400.compile.c++ DEFAULTS $(condition) : -qq --static_template_instantiation ;
     }
+    else
+    {
+      toolset.flags tms320c5400.compile.c++ DEFAULTS $(condition) : -qq ;
+    }
     toolset.flags tms320c5400.compile.asm DEFAULTS $(condition) : -qq ;
 
     toolset.flags tms320c5400.link DEFINES $(condition) : <define> ;

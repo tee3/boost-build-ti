@@ -172,8 +172,8 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c5500.link FINDLIBS_ST <find-static-library> ;
     toolset.flags tms320c5500.link FINDLIBS_SA <find-shared-library> ;
     toolset.flags tms320c5500.link LIBRARIES <library-file> ;
-    toolset.flags tms320c5500.link LIBRARY_PATH_OPTION  : -i : unchecked ;
-    toolset.flags tms320c5500.link LIBRARY_OPTION  : "" : unchecked ;
+    toolset.flags tms320c5500.link LIBRARY_PATH_OPTION : -i : unchecked ;
+    toolset.flags tms320c5500.link LIBRARY_OPTION : "" : unchecked ;
     toolset.flags tms320c5500.link RUN_PATH $(condition) : $(root)/bin ;
 
     toolset.flags tms320c5500.hex OPTIONS <flags> ;

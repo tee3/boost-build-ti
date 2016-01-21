@@ -171,8 +171,8 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c2000.link FINDLIBS_ST <find-static-library> ;
     toolset.flags tms320c2000.link FINDLIBS_SA <find-shared-library> ;
     toolset.flags tms320c2000.link LIBRARIES <library-file> ;
-    toolset.flags tms320c2000.link LIBRARY_PATH_OPTION  : -i : unchecked ;
-    toolset.flags tms320c2000.link LIBRARY_OPTION  : "" : unchecked ;
+    toolset.flags tms320c2000.link LIBRARY_PATH_OPTION : -i : unchecked ;
+    toolset.flags tms320c2000.link LIBRARY_OPTION : "" : unchecked ;
     toolset.flags tms320c2000.link RUN_PATH $(condition) : $(root)/bin ;
 
     toolset.flags tms320c2000.hex OPTIONS <flags> ;

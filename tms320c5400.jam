@@ -273,7 +273,7 @@ rule init ( version ? : command * : options * )
     }
 
     toolset.flags tms320c5400.hex OPTIONS $(condition) : <flags> ;
-    toolset.flags tms320c5400.hex OFLAG $(condition) : "-o " ;
+    toolset.flags tms320c5400.hex HEX_OUTPUT_OPTION $(condition) : "-o " ;
 
     cpu-flags tms320c5400.compile OPTIONS : $(condition) : tms320c5400 : tms320c5400 : : default ;
     cpu-flags tms320c5400.compile OPTIONS : $(condition) : tms320c5400 : tms320c541 : -v541 ;
@@ -403,7 +403,7 @@ actions together piecemeal archive
 # @todo Hex should become a top-level target type
 actions hex
 {
-  "$(.bin)/hex500" -q $(OPTIONS) $(OFLAG)"$(<)" -map "$(<[1]:S=.hex.map)" "$(>)"
+  "$(.bin)/hex500" -q $(OPTIONS) $(HEX_OUTPUT_OPTION)"$(<)" -map "$(<[1]:S=.hex.map)" "$(>)"
 }
 
 local rule cpu-flags ( toolset variable : condition ? : architecture : instruction-set + : values * : default ? )

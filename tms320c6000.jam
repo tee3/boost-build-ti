@@ -269,7 +269,7 @@ local rule cpu-flags ( toolset variable : condition ? : architecture : instructi
       # instruction-set is not set
       toolset.flags $(toolset) $(variable) $(condition)/<architecture>$(architecture)/<instruction-set> : $(values) ;
     }
-    toolset.flags $(toolset) $(variable) $(condition)/<architecture>/<instruction-set>$(instruction-set) <architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
+    toolset.flags $(toolset) $(variable) $(condition)/<architecture>/<instruction-set>$(instruction-set) $(condition)/<architecture>$(architecture)/<instruction-set>$(instruction-set) : $(values) ;
   }
   else
   {

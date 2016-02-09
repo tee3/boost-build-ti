@@ -148,13 +148,13 @@ rule init ( version ? : command * : options * )
     toolset.flags tms320c5400.compile OPTIONS $(condition)/<debug-symbols>on : -g ;
 
     toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>off : ;
-    if $(major-version) < 4
+    if $(major-version) >= 4
     {
-      toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>speed : -o3 ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>speed : -O3 ;
     }
     else
     {
-      toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>speed : -O3 ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>speed : -o3 ;
     }
     toolset.flags tms320c5400.compile OPTIONS $(condition)/<optimization>space : -ms ;
 
@@ -162,17 +162,17 @@ rule init ( version ? : command * : options * )
     # toolset.flags tms320c5400.compile OPTIONS $(condition)/<profiling>off : ;
     # toolset.flags tms320c5400.compile OPTIONS $(condition)/<profiling>on : ;
 
-    if $(major-version) < 4
-    {
-      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>off : -x0 ;
-      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>on : -x1 ;
-      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>full : -x2 ;
-    }
-    else
+    if $(major-version) >= 4
     {
       toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>off : -pi ;
       toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>on : ;
       toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>full : ;
+    }
+    else
+    {
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>off : -x0 ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>on : -x1 ;
+      toolset.flags tms320c5400.compile OPTIONS $(condition)/<inlining>full : -x2 ;
     }
 
     if $(major-version) >= 4
@@ -295,14 +295,14 @@ rule init ( version ? : command * : options * )
       toolset.flags tms320c5400.link RUN_PATH $(condition) : $(root) ;
     }
 
-    if $(major-version) < 4
+    if $(major-version) >= 4
     {
-      toolset.flags tms320c5400.link STDLIBRARIES $(condition) : rts.lib ;
-      #toolset.flags tms320c5400.link STDLIBRARIES $(condition) : rts_ext.lib ;
+      toolset.flags tms320c5400.link STDLIBRARIES $(condition) : libc.a ;
     }
     else
     {
-      toolset.flags tms320c5400.link STDLIBRARIES $(condition) : libc.a ;
+      toolset.flags tms320c5400.link STDLIBRARIES $(condition) : rts.lib ;
+      #toolset.flags tms320c5400.link STDLIBRARIES $(condition) : rts_ext.lib ;
     }
 
     toolset.flags tms320c5400.hex OPTIONS $(condition) : <flags> ;
@@ -330,13 +330,13 @@ rule compile.c ( target : sources + : properties * )
   local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
   local major-version = [ get-major-version $(version) ] ;
 
-  if $(major-version) < 4
+  if $(major-version) >= 4
   {
-    compile.c.3 $(target) : $(sources) : $(properties) ;
+    compile.c.4 $(target) : $(sources) : $(properties) ;
   }
   else
   {
-    compile.c.4 $(target) : $(sources) : $(properties) ;
+    compile.c.3 $(target) : $(sources) : $(properties) ;
   }
 }
 
@@ -355,13 +355,13 @@ rule compile.c++ ( target : sources + : properties * )
   local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
   local major-version = [ get-major-version $(version) ] ;
 
-  if $(major-version) < 4
+  if $(major-version) >= 4
   {
-    compile.c++.3 $(target) : $(sources) : $(properties) ;
+    compile.c++.4 $(target) : $(sources) : $(properties) ;
   }
   else
   {
-    compile.c++.4 $(target) : $(sources) : $(properties) ;
+    compile.c++.3 $(target) : $(sources) : $(properties) ;
   }
 }
 
@@ -380,13 +380,13 @@ rule compile.asm ( target : sources + : properties * )
   local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
   local major-version = [ get-major-version $(version) ] ;
 
-  if $(major-version) < 4
+  if $(major-version) >= 4
   {
-    compile.asm.3 $(target) : $(sources) : $(properties) ;
+    compile.asm.4 $(target) : $(sources) : $(properties) ;
   }
   else
   {
-    compile.asm.4 $(target) : $(sources) : $(properties) ;
+    compile.asm.3 $(target) : $(sources) : $(properties) ;
   }
 }
 
@@ -405,13 +405,13 @@ rule link ( target : sources + : properties * )
   local version = [ feature.get-values <toolset-tms320c5400:version> : $(properties) ] ;
   local major-version = [ get-major-version $(version) ] ;
 
-  if $(major-version) < 4
+  if $(major-version) >= 4
   {
-    link.3 $(target) : $(sources) : $(properties) ;
+    link.4 $(target) : $(sources) : $(properties) ;
   }
   else
   {
-    link.4 $(target) : $(sources) : $(properties) ;
+    link.3 $(target) : $(sources) : $(properties) ;
   }
 }
 
